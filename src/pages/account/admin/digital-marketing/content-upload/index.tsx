@@ -1,11 +1,11 @@
-import AdminLayout from "@/components/ui/admin-layout";
-import AdminContentUploadForm from "@/components/ui/AdminContentUploadForm";
+import AdminLayout from "../../../../../components/ui/admin-layout";
+import AdminContentUploadForm from "../../../../../components/ui/AdminContentUploadForm";
 import { ReactElement } from "react";
 
-export default function AdminDigitalMarketingContentUpload(){
+export default function AdminDigitalMarketingContentUpload() {
     return (
         <div className="w-full">
-            <AdminContentUploadForm/>
+            <AdminContentUploadForm />
         </div>
     )
 }

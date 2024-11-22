@@ -1,12 +1,12 @@
 "use client"
 
 import { ReactElement, useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "../../../../components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card"
+import { Input } from "../../../../components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../components/ui/table"
 import { ArrowUpDown, Download, Plus, Search, Upload } from 'lucide-react'
-import AdminLayout from "@/components/ui/admin-layout"
+import AdminLayout from "../../../../components/ui/admin-layout"
 
 const inventoryItems = [
     { id: 1, name: "Product A", sku: "SKU001", quantity: 100, status: "In Stock" },
@@ -51,15 +51,15 @@ export default function AdminInventoryManagement() {
     )
 
     const handleAddProduct = () => {
-        
+
     }
 
     const handleImport = () => {
-        
+
     }
 
     const handleExport = () => {
-        
+
     }
 
     return (
@@ -121,10 +121,10 @@ export default function AdminInventoryManagement() {
                                     <TableCell>
                                         <span
                                             className={`px-2 py-1 rounded-full text-xs font-semibold ${item.status === "In Stock"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : item.status === "Low Stock"
-                                                        ? "bg-yellow-100 text-yellow-800"
-                                                        : "bg-red-100 text-red-800"
+                                                ? "bg-green-100 text-green-800"
+                                                : item.status === "Low Stock"
+                                                    ? "bg-yellow-100 text-yellow-800"
+                                                    : "bg-red-100 text-red-800"
                                                 }`}
                                         >
                                             {item.status}

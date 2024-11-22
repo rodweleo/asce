@@ -1,6 +1,19 @@
+import { ReactNode } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "./card";
 
-export default function PlatformCard({ icon, name, stats }) {
+
+interface StatsProps {
+    posts: number
+    likes: string
+    views: string
+}
+interface PlatformCardProps {
+    icon: ReactNode
+    name: string
+    stats: StatsProps
+}
+
+export default function PlatformCard({ icon, name, stats }: PlatformCardProps) {
     return (
         <Card>
             <CardHeader>

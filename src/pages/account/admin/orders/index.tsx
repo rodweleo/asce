@@ -1,12 +1,12 @@
 "use client"
 
 import { ReactElement, useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "../../../../components/ui/button"
+import { Input } from "../../../../components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../../components/ui/select"
 import { Search, Eye } from 'lucide-react'
-import AdminLayout from '@/components/ui/admin-layout'
+import AdminLayout from '../../../../components/ui/admin-layout'
 
 const mockOrders = [
     { id: 1, customer: 'John Doe', total: 150.00, status: 'Pending', date: '2023-05-01' },
@@ -27,7 +27,7 @@ export default function AdminOrderManagement() {
         setOrders(orders.map(order =>
             order.id === id ? { ...order, status: newStatus } : order
         ))
-        
+
     }
 
     const filteredOrders = orders.filter(order =>

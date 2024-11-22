@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import AdminLayout from "@/components/ui/admin-layout";
+import AdminLayout from "./admin-layout";
 
 interface AdminAccountProps {
     children: ReactNode;

@@ -1,16 +1,17 @@
 "use client"
 
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./sidebar"
 import { LogOut, BarChart3, Box, DollarSign, FileText, Home, MessageCircle, Settings, Truck, Users, ChevronDown } from "lucide-react"
 import { Button } from "./button"
 import { useState } from "react"
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
+import { useRouter } from "next/router"
 
-export default function AdminSidebar(){
-    
+export default function AdminSidebar() {
+
     const [activeTab, setActiveTab] = useState("overview")
-
+    const router = useRouter()
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
         { icon: Box, label: "Inventory", value: "/account/admin/inventory" },
@@ -19,9 +20,9 @@ export default function AdminSidebar(){
         { icon: FileText, label: "Invoices", value: "/account/admin/invoices" },
         { icon: DollarSign, label: "Payments", value: "/account/admin/payments" },
         { icon: MessageCircle, label: "Customer Engagement", value: "/account/admin/engagement" },
-        { 
-            icon: Users, 
-            label: "Digital Marketing", 
+        {
+            icon: Users,
+            label: "Digital Marketing",
             value: "/account/admin/digital-marketing",
             sub_items: [
                 { icon: MessageCircle, label: "Overview", value: "/account/admin/digital-marketing/overview" },
@@ -35,6 +36,10 @@ export default function AdminSidebar(){
         { icon: Settings, label: "Settings", value: "/account/admin/settings" },
     ]
 
+    const logOut = () => {
+        router.replace("/")
+    }
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -47,8 +52,8 @@ export default function AdminSidebar(){
                     <SidebarGroupContent>
                         <SidebarMenu className="space-y-2.5">
                             {sidebarItems.map((item) => (
-                                item.sub_items 
-                                ?
+                                item.sub_items
+                                    ?
                                     <Collapsible key={item.value} className="group/collapsible w-full">
                                         <SidebarGroup>
                                             <SidebarGroupLabel asChild>
@@ -62,19 +67,19 @@ export default function AdminSidebar(){
                                                             </div>
                                                             <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                                                         </SidebarMenuButton>
-                                                    </SidebarMenuItem>                   
+                                                    </SidebarMenuItem>
                                                 </CollapsibleTrigger>
                                             </SidebarGroupLabel>
                                             <CollapsibleContent>
                                                 <SidebarGroupContent>
-                                                   <SidebarMenu className="space-y-2.5 mt-2.5">
+                                                    <SidebarMenu className="space-y-2.5 mt-2.5">
                                                         {
                                                             item.sub_items.map((sub_item) => (
                                                                 <SidebarMenuItem key={sub_item.value}>
                                                                     <SidebarMenuButton asChild
                                                                         onClick={() => setActiveTab(sub_item.value)}
                                                                         isActive={activeTab === sub_item.value}
-                                                                        
+
                                                                     >
                                                                         <Link href={sub_item.value} className="flex items-center space-y-2.5 gap-2.5">
                                                                             <item.icon className="h-4 w-4" />
@@ -84,12 +89,12 @@ export default function AdminSidebar(){
                                                                 </SidebarMenuItem>
                                                             ))
                                                         }
-                                                   </SidebarMenu>
+                                                    </SidebarMenu>
                                                 </SidebarGroupContent>
                                             </CollapsibleContent>
                                         </SidebarGroup>
                                     </Collapsible>
-                                :
+                                    :
                                     <SidebarMenuItem key={item.value}>
                                         <SidebarMenuButton
                                             onClick={() => setActiveTab(item.value)}
@@ -101,18 +106,16 @@ export default function AdminSidebar(){
                                                 {item.label}
                                             </Link>
                                         </SidebarMenuButton>
-                                    </SidebarMenuItem> 
+                                    </SidebarMenuItem>
                             ))}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
             <div className="mt-auto p-4">
-                <Button variant="outline" className="w-full" asChild>
-                    <Link href="/logout">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Log out
-                    </Link>
+                <Button onClick={logOut} variant="outline" className="w-full">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
                 </Button>
             </div>
         </Sidebar>

@@ -14,7 +14,7 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "./breadcrumb"
 import { usePathname } from 'next/navigation';
 
 interface AdminLayoutProps {
@@ -53,7 +53,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                                                                 <Slash />
                                                             </BreadcrumbSeparator>
                                                         )}
-                                                        
+
                                                     </>
                                                 )
                                             })

@@ -1,13 +1,13 @@
 "use client"
 
 import { useState, ReactElement } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "../../components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import Link from "next/link"
-import RootLayout from "@/components/ui/root-layout"
+import RootLayout from "../../components/ui/root-layout"
 
 export default function SignUpPage() {
     const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +20,7 @@ export default function SignUpPage() {
         await new Promise(resolve => setTimeout(resolve, 2000))
 
         setIsLoading(false)
-        
+
     }
 
     return (

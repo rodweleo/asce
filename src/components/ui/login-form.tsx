@@ -1,9 +1,9 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+// import { useRouter } from "next/navigation"
+import { Button } from "./button"
+import { Input } from "./input"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card"
 import z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,9 +11,10 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import toast from "react-hot-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
-import {Label} from "@/components/ui/label"
+import { Label } from "./label"
 import Link from "next/link"
-import Image from "next/image"
+import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
+import BizProBackendActor from "@/utils/BizProBackendActor"
 
 export const LoginSchema = z.object({
     email: z.string().email({
@@ -26,7 +27,7 @@ export const LoginSchema = z.object({
 })
 export default function LoginForm() {
     const [isSubmitting, setSubmitting] = useState(false)
-    const router = useRouter()
+    // const router = useRouter()
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -43,13 +44,14 @@ export default function LoginForm() {
         formData.set("email", values.email)
         formData.set("pass", values.password)
 
-        toast.success(`Welcome back ${values.email}`)
 
-        setTimeout(() => {
-            router.replace("/account/admin")
-        }, 2000)
+        const greeting = await BizProBackendActor.greet(values.email)
+
+        toast.success(`Welcome back ${greeting}`)
 
         setSubmitting(false)
+
+
     }
 
     return (
@@ -63,10 +65,7 @@ export default function LoginForm() {
                     <CardContent>
                         <div className="space-y-5">
                             <div className="flex flex-col items-center">
-                                <Button type="button" className="w-full flex items-center" variant="outline">
-                                    <Image src="/logos/ICP Logo.svg" alt="ICP Authenticator" width={25} height={25} />
-                                    <span className="font-semibold">SIGN IN WITH  ICP AUTHENTICATOR</span>
-                                </Button>
+                                <SignInWithIcpAuthenticatorBtn />
                             </div>
                             <div className="flex items-center">
                                 <hr className="w-full" />
@@ -127,12 +126,12 @@ export default function LoginForm() {
                     </CardContent>
                     <CardFooter>
                         <div className="space-y-5 flex flex-col w-full">
-                            <Button type="submit" disabled={isSubmitting} className="disabled:bg-slate-600 disabled:cursor-not-allowed"> 
+                            <Button type="submit" disabled={isSubmitting} className="disabled:bg-slate-600 disabled:cursor-not-allowed">
                                 {
                                     isSubmitting ? <div className="flex items-center gap-2.5">
-                                        <Loader2 className="animate-spin" /> 
+                                        <Loader2 className="animate-spin" />
                                         <span>Please Wait</span>
-                                    </div> : 
+                                    </div> :
                                         <span>Login</span>
                                 }
                             </Button>

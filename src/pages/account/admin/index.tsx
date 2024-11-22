@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../../../components/ui/card";
 import { DollarSign, Users, BarChart3 } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, Bar, BarChart, } from "recharts"
 import {
@@ -8,9 +8,9 @@ import {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "../../../components/ui/chart"
 import { ReactElement, useEffect } from "react";
-import AdminLayout from "@/components/ui/admin-layout";
+import AdminLayout from "../../../components/ui/admin-layout";
 
 export default function AdminDashboard() {
 
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
         total: {
             label: "Total Sales: ",
             color: "hsl(var(--chart-1))",
-        },        
+        },
     } satisfies ChartConfig
 
 
@@ -117,10 +117,10 @@ export default function AdminDashboard() {
                                         cursor={false}
                                         content={<ChartTooltipContent hideLabel />}
                                     />
-                                    <Bar 
-                                        dataKey="total" 
-                                        fill="hsl(var(--chart-1))" 
-                                        radius={8} 
+                                    <Bar
+                                        dataKey="total"
+                                        fill="hsl(var(--chart-1))"
+                                        radius={8}
                                     />
                                 </BarChart>
                             </ChartContainer>
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
     )
 }
 
-AdminDashboard.getLayout = function getLayout(page: ReactElement)  {
+AdminDashboard.getLayout = function getLayout(page: ReactElement) {
     return (
         <AdminLayout>{page}</AdminLayout>
     )

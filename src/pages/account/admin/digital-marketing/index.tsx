@@ -1,12 +1,12 @@
 "use client"
 
 import { ReactElement, useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "../../../../components/ui/button"
+import { Input } from "../../../../components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../components/ui/tabs"
 import { Upload, BarChart2, MessageSquare } from 'lucide-react'
-import AdminLayout from '@/components/ui/admin-layout'
+import AdminLayout from '../../../../components/ui/admin-layout'
 
 export default function AdminDigitalMarketing() {
     const [videoTitle, setVideoTitle] = useState('')
@@ -14,15 +14,15 @@ export default function AdminDigitalMarketing() {
     const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
 
     const handleUploadVideo = () => {
-       
+
     }
 
     const handleGenerateAd = () => {
-       
+
     }
 
     const handlePostAd = () => {
-       
+
     }
 
     const togglePlatform = (platform: string) => {

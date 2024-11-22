@@ -2,10 +2,10 @@ import { Checkbox } from "./checkbox";
 import { Calendar } from "./calendar";
 import { Input } from "./input";
 import { Button } from "./button";
-import { Label } from "recharts";
+import { Label } from "./label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./card";
 
-export default function AdminContentUploadForm(){
+export default function AdminContentUploadForm() {
     return (
         <Card className="w-full">
             <CardHeader>
@@ -23,15 +23,15 @@ export default function AdminContentUploadForm(){
                         <div className="flex space-x-4">
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="tiktok" />
-                                <label htmlFor="tiktok">TikTok</label>
+                                <Label htmlFor="tiktok">TikTok</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="instagram" />
-                                <label htmlFor="instagram">Instagram</label>
+                                <Label htmlFor="instagram">Instagram</Label>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="youtube" />
-                                <label htmlFor="youtube">YouTube</label>
+                                <Label htmlFor="youtube">YouTube</Label>
                             </div>
                         </div>
                     </div>

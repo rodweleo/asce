@@ -1,9 +1,9 @@
 
 "use client"
 
-import {useEffect} from "react"
-import LoginForm from "@/components/ui/login-form";
-export default function LoginPage(){
+import { useEffect } from "react"
+import LoginForm from "../../components/ui/login-form";
+export default function LoginPage() {
 
     useEffect(() => {
         document.title = "Login | BizPro"
@@ -13,7 +13,7 @@ export default function LoginPage(){
     return (
         <div className="h-screen w-full flex">
             <section className="w-2/4 h-full grid place-items-center p-2.5">
-                <LoginForm/>
+                <LoginForm />
             </section>
             <div className="w-2/4 h-full bg-blue-950 grid place-items-center">
                 <div className="text-center flex flex-col items-center space-y-5 p-2.5 select-none">

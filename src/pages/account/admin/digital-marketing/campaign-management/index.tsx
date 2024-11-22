@@ -1,10 +1,10 @@
-import AdminLayout from "@/components/ui/admin-layout"
+import AdminLayout from "../../../../../components/ui/admin-layout"
 import React from "react"
 
 import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import AdminDigitalMarketingCampaignList from "@/components/ui/admin-digital-marketing-campaign-list";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "../../../../../components/ui/button";
+import AdminDigitalMarketingCampaignList from "../../../../../components/ui/admin-digital-marketing-campaign-list";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../../../../components/ui/card";
 
 export default function AdminDigitalMarketingCampaignManagement() {
     return (

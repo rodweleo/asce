@@ -1,13 +1,13 @@
 "use client"
 
-import AdminLayout from "@/components/ui/admin-layout";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import PlatformCard from "@/components/ui/platform-card";
+import AdminLayout from "../../../../../components/ui/admin-layout";
+import { Card, CardHeader, CardTitle, CardContent } from "../../../../../components/ui/card";
+import PlatformCard from "../../../../../components/ui/platform-card";
 import { Instagram, Youtube } from "lucide-react";
 import { ReactElement, useEffect } from "react";
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from "recharts";
 
-export default function AdminDigitalMarketingOverview(){
+export default function AdminDigitalMarketingOverview() {
 
     useEffect(() => {
         document.title = "Digital Marketing Overview | BizPro"
