@@ -1,51 +1,71 @@
 "use client"
 
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./sidebar"
-import { LogOut, BarChart3, Box, DollarSign, FileText, Home, MessageCircle, Settings, Truck, Users, ChevronDown } from "lucide-react"
+import { LogOut, Box, FileText, Home, MessageCircle, Settings, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
 import { Button } from "./button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
 import { useRouter } from "next/router"
+import { useAuth } from "./use-auth-client"
+import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
+import { Result } from "@/declarations/bizpro-backend/bizpro-backend.did"
 
 export default function AdminSidebar() {
 
     const [activeTab, setActiveTab] = useState("overview")
+    const [businessProfile, setBusinessProfile] = useState<Result | null>(null)
+
     const router = useRouter()
+    const auth = useAuth()
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
         { icon: Box, label: "Inventory", value: "/account/admin/inventory" },
         { icon: Box, label: "Orders", value: "/account/admin/orders" },
         { icon: Truck, label: "Suppliers", value: "/account/admin/suppliers" },
         { icon: FileText, label: "Invoices", value: "/account/admin/invoices" },
-        { icon: DollarSign, label: "Payments", value: "/account/admin/payments" },
-        { icon: MessageCircle, label: "Customer Engagement", value: "/account/admin/engagement" },
         {
             icon: Users,
             label: "Digital Marketing",
             value: "/account/admin/digital-marketing",
             sub_items: [
-                { icon: MessageCircle, label: "Overview", value: "/account/admin/digital-marketing/overview" },
-                { icon: MessageCircle, label: "Content Upload", value: "/account/admin/digital-marketing/content-upload" },
+                { icon: LayoutDashboard, label: "Overview", value: "/account/admin/digital-marketing/overview" },
+                { icon: ImageUp, label: "Content Upload", value: "/account/admin/digital-marketing/content-upload" },
                 { icon: MessageCircle, label: "Campaign Management", value: "/account/admin/digital-marketing/campaign-management" },
-                { icon: MessageCircle, label: "Engagement Metrics", value: "/account/admin/digital-marketing/engagement-metrics" },
-                { icon: MessageCircle, label: "Platform integration", value: "/account/admin/digital-marketing/platform-integration" },
+                // { icon: MessageCircle, label: "Engagement Metrics", value: "/account/admin/digital-marketing/engagement-metrics" },
+                // { icon: MessageCircle, label: "Platform integration", value: "/account/admin/digital-marketing/platform-integration" },
             ]
         },
-        { icon: BarChart3, label: "Reports", value: "/account/admin/reports" },
         { icon: Settings, label: "Settings", value: "/account/admin/settings" },
     ]
 
     const logOut = () => {
-        router.replace("/")
+        if (auth) {
+            auth.logout()
+            router.replace("/")
+        }
     }
 
+    const getBusinessInfo = async () => {
+
+        const res: Result = await AsceflowBackendActor.readBusinessProfile()
+
+        setBusinessProfile(res)
+        console.log(businessProfile)
+    }
+
+    useEffect(() => {
+        getBusinessInfo()
+    }, [])
+
     return (
-        <Sidebar>
+        <Sidebar className="bg-white">
             <SidebarHeader>
-                <div className="flex items-center gap-2 px-4 py-2">
-                    <span className="text-lg font-bold">BizPro</span>
-                </div>
+                {
+                    <div className="flex items-center gap-2 px-4 py-2">
+                        <span className="text-lg font-bold">{auth?.principal ? auth.principal.toText() : ""}</span>
+                    </div>
+                }
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -82,7 +102,7 @@ export default function AdminSidebar() {
 
                                                                     >
                                                                         <Link href={sub_item.value} className="flex items-center space-y-2.5 gap-2.5">
-                                                                            <item.icon className="h-4 w-4" />
+                                                                            <sub_item.icon className="h-4 w-4" />
                                                                             {sub_item.label}
                                                                         </Link>
                                                                     </SidebarMenuButton>

@@ -4,9 +4,9 @@ import { ReactElement, useEffect, useState } from "react"
 import { Button } from "../../../../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card"
 import { Input } from "../../../../components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../components/ui/table"
-import { ArrowUpDown, Download, Plus, Search, Upload } from 'lucide-react'
+import { Plus, Search } from 'lucide-react'
 import AdminLayout from "../../../../components/ui/admin-layout"
+import { AdminInventoryProductList } from "@/components/ui/admin-inventory-product-list"
 
 const inventoryItems = [
     { id: 1, name: "Product A", sku: "SKU001", quantity: 100, status: "In Stock" },
@@ -25,14 +25,7 @@ export default function AdminInventoryManagement() {
     useEffect(() => {
         document.title = "Inventory | BizPro"
     }, [])
-    const handleSort = (column: string) => {
-        if (column === sortColumn) {
-            setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-        } else {
-            setSortColumn(column)
-            setSortDirection("asc")
-        }
-    }
+    
 
     const sortedItems = [...inventoryItems].sort((a, b) => {
         if (a[sortColumn as keyof typeof a] < b[sortColumn as keyof typeof b]) {
@@ -54,14 +47,6 @@ export default function AdminInventoryManagement() {
 
     }
 
-    const handleImport = () => {
-
-    }
-
-    const handleExport = () => {
-
-    }
-
     return (
         <div className="w-full">
             <h1 className="text-3xl font-bold mb-6">Inventory Management</h1>
@@ -79,13 +64,7 @@ export default function AdminInventoryManagement() {
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button onClick={handleAddProduct}>
-                        <Plus className="mr-2 h-4 w-4" /> Add Product
-                    </Button>
-                    <Button variant="outline" onClick={handleImport}>
-                        <Upload className="mr-2 h-4 w-4" /> Import
-                    </Button>
-                    <Button variant="outline" onClick={handleExport}>
-                        <Download className="mr-2 h-4 w-4" /> Export
+                        <Plus className="h-4 w-4" /> Add Product
                     </Button>
                 </div>
             </div>
@@ -94,50 +73,7 @@ export default function AdminInventoryManagement() {
                     <CardTitle>Inventory Items</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead onClick={() => handleSort("name")} className="cursor-pointer">
-                                    Product Name <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-                                </TableHead>
-                                <TableHead onClick={() => handleSort("sku")} className="cursor-pointer">
-                                    SKU <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-                                </TableHead>
-                                <TableHead onClick={() => handleSort("quantity")} className="cursor-pointer">
-                                    Quantity <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-                                </TableHead>
-                                <TableHead onClick={() => handleSort("status")} className="cursor-pointer">
-                                    Status <ArrowUpDown className="ml-2 h-4 w-4 inline" />
-                                </TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredItems.map((item) => (
-                                <TableRow key={item.id}>
-                                    <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.sku}</TableCell>
-                                    <TableCell>{item.quantity}</TableCell>
-                                    <TableCell>
-                                        <span
-                                            className={`px-2 py-1 rounded-full text-xs font-semibold ${item.status === "In Stock"
-                                                ? "bg-green-100 text-green-800"
-                                                : item.status === "Low Stock"
-                                                    ? "bg-yellow-100 text-yellow-800"
-                                                    : "bg-red-100 text-red-800"
-                                                }`}
-                                        >
-                                            {item.status}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Button variant="ghost" size="sm">Edit</Button>
-                                        <Button variant="ghost" size="sm">Delete</Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <AdminInventoryProductList products={inventoryItems} />
                 </CardContent>
             </Card>
         </div>

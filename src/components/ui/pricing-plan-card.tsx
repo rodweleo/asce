@@ -1,7 +1,10 @@
+"use client"
+
 import { CheckCircle } from "lucide-react";
 import { Button } from "./button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./card";
 import { Separator } from "./separator";
+import { useRouter } from "next/router"
 
 interface PricingPlanProps {
     name: string
@@ -10,6 +13,11 @@ interface PricingPlanProps {
     features: string[]
 }
 export default function PricingPlanCard({ name, description, price, features }: PricingPlanProps) {
+    const router = useRouter()
+
+    const navigateToOnboardingPage = () => {
+        router.push("/onboarding")
+    }
     return (
         <Card key={name} className="w-full sm:w-[300px]">
             <CardHeader>
@@ -19,7 +27,7 @@ export default function PricingPlanCard({ name, description, price, features }: 
                     style: "currency",
                     currency: "USD"
                 })}<span className="text-sm tracking-loose"> / month</span></CardTitle>
-                <Button className="w-full">
+                <Button className="w-full" onClick={navigateToOnboardingPage}>
                     SUBSCRIBE
                 </Button>
             </CardHeader>

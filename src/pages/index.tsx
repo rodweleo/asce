@@ -16,7 +16,7 @@ import AnimatedGradientText from "../components/magicui/animated-gradient-text";
 export default function RootLandingPage() {
 
   useEffect(() => {
-    document.title = "Home | BizPro"
+    document.title = "Home | asceflow.ai"
   }, [])
 
   return (
@@ -34,21 +34,21 @@ export default function RootLandingPage() {
                         `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
                       )}
                     >
-                      Introducing BizPro
+                      Introducing asceflow.ai
                     </span>
                     <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
                   </AnimatedGradientText>
                 </div>
-                <h1 className="text-4xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-loose">
-                  Streamline Your Business with BizPro
+                <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-winde">
+                  Streamline Your Business with <span className="text-primary">asceflow.ai</span>
                 </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 sm:text-xl md:text-2xl lg:text-2xl dark:text-gray-400">
+                <p className="mx-auto max-w-[700px] text-gray-500 sm:text-lg md:text-xl lg:text-2xl dark:text-gray-400">
                   Automate inventory, simplify supplier coordination, and boost customer engagement with our AI-powered platform.
                 </p>
               </div>
-              <div className="space-x-4 *:px-10">
+              <div className="flex flex-wrap gap-5 items-center justify-center *:px-10">
                 <Button asChild>
-                  <Link href="/signup">Start Free Trial</Link>
+                  <Link href="/onboarding">Start Free Trial</Link>
                 </Button>
                 <Button variant="outline" asChild>
                   <Link href="#features">
@@ -82,9 +82,9 @@ export default function RootLandingPage() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">What Our Customers Say</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { name: "John Doe", company: "Tech Solutions Inc.", quote: "FlowSync AI has revolutionized our inventory management. We've reduced stockouts by 50%!" },
+                { name: "John Doe", company: "Tech Solutions Inc.", quote: "asceflow.ai has revolutionized our inventory management. We've reduced stockouts by 50%!" },
                 { name: "Jane Smith", company: "Retail Giants", quote: "The customer engagement features have significantly improved our response times and satisfaction rates." },
-                { name: "Mike Johnson", company: "Supply Chain Pro", quote: "Coordinating with suppliers has never been easier. FlowSync AI is a game-changer for our business." },
+                { name: "Mike Johnson", company: "Supply Chain Pro", quote: "Coordinating with suppliers has never been easier. asceflow.ai is a game-changer for our business." },
               ].map((testimonial, index) => (
                 <Card key={index}>
                   <CardHeader>

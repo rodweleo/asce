@@ -14,7 +14,8 @@ import { Loader2 } from "lucide-react"
 import { Label } from "./label"
 import Link from "next/link"
 import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
-import BizProBackendActor from "@/utils/BizProBackendActor"
+import BizProBackendActor from "@/utils/AsceflowBackendActor"
+import SignInWithEmailPasswordBtn from "./sign-in-with-email-password-btn"
 
 export const LoginSchema = z.object({
     email: z.string().email({
@@ -45,7 +46,7 @@ export default function LoginForm() {
         formData.set("pass", values.password)
 
 
-        const greeting = await BizProBackendActor.greet(values.email)
+        const greeting = await AsceflowBackendActor.greet(values.email)
 
         toast.success(`Welcome back ${greeting}`)
 
@@ -64,15 +65,16 @@ export default function LoginForm() {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-5">
-                            <div className="flex flex-col items-center">
+                            <div className="flex flex-col items-center gap-4">
                                 <SignInWithIcpAuthenticatorBtn />
+                                <SignInWithEmailPasswordBtn />
                             </div>
-                            <div className="flex items-center">
+                            <div className="flex items-center hidden">
                                 <hr className="w-full" />
                                 <span className="w-full text-xs text-slate-500 px-2.5">OR CONTINUE WITH</span>
                                 <hr className="w-full" />
                             </div>
-                            <div className="space-y-2.5">
+                            <div className="space-y-2.5 hidden">
                                 <FormField
                                     control={form.control}
                                     name="email"
@@ -124,7 +126,7 @@ export default function LoginForm() {
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="hidden">
                         <div className="space-y-5 flex flex-col w-full">
                             <Button type="submit" disabled={isSubmitting} className="disabled:bg-slate-600 disabled:cursor-not-allowed">
                                 {

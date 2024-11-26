@@ -2,15 +2,15 @@
 
 import AdminLayout from "@/components/ui/admin-layout"
 
-export default function AdminInvoiceManagement() {
+export default function AdminSupplierManagement() {
     return (
         <div>
-            <h1>Invoice Management</h1>
+            <h1>Suppliers Management</h1>
         </div>
     )
 }
 
-AdminInvoiceManagement.getLayout = (page: React.ReactElement) => {
+AdminSupplierManagement.getLayout = (page: React.ReactElement) => {
     return (
         <AdminLayout>
             {page}

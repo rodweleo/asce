@@ -1,4 +1,61 @@
+import List "mo:base/List";
+import Time "mo:base/Time";
+import Principal "mo:base/Principal";
+import Nat64 "mo:base/Nat64";
+import Bool "mo:base/Bool";
+
 module Types {
+
+    type Bio = {
+        name : ?Text;
+        displayName : ?Text;
+        location : ?Text;
+        about : ?Text;
+    };
+
+    public type Profile = {
+        bio : Bio;
+        id : Principal;
+        image : ?Image;
+    };
+
+    public type ProfileUpdate = {
+        bio : Bio;
+        image : ?Image;
+    };
+
+    type Image = {
+        fileName : Text;
+        data : Blob;
+        filetype : Text;
+    };
+
+    public type Error = {
+        #NotFound;
+        #AlreadyExists;
+        #NotAuthorized;
+    };
+
+    public type DeleteAssetArguments = {
+        key : Text;
+    };
+
+    public type User = {
+        id : Text;
+        name : Text;
+        email : Text;
+        password : Text;
+    };
+
+    public type Business = {
+        id : Text;
+        ownerId : Text;
+        name : Text;
+        logo : Text;
+        contact : Text;
+        location : Text;
+        socialLinks : [Text];
+    };
 
     public type Product = {
         id : Nat;

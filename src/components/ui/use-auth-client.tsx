@@ -1,9 +1,13 @@
+
 import { AuthClient } from "@dfinity/auth-client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { canisterId, createActor } from "../../declarations/bizpro-backend";
 import { Identity } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/slices/authSlice";
+import { useRouter } from "next/router";
 
 interface AuthContentProps { isAuthenticated: boolean; signInWithIcpAuthenticator: () => void; logout: () => Promise<void>; authClient: AuthClient | null; identity: Identity | null; principal: Principal | null; whoamiActor: null; }
 const AuthContext = createContext<AuthContentProps | null>(null);
@@ -35,8 +39,8 @@ export const defaultOptions = {
      */
     createOptions: {
         idleOptions: {
-            // Set to true if you do not want idle functionality
-            disableIdle: true,
+            disableDefaultIdleCallback: true,
+            disableIdle: true
         },
     },
     /**
@@ -63,6 +67,9 @@ export const useAuthClient = (options = defaultOptions) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [whoamiActor, setWhoamiActor] = useState<any>(null);
 
+    const dispatch = useDispatch();
+    const router = useRouter()
+
     useEffect(() => {
         // Initialize AuthClient
         AuthClient.create(options.createOptions).then(async (client) => {
@@ -75,8 +82,19 @@ export const useAuthClient = (options = defaultOptions) => {
             authClient.login({
                 ...options.loginOptions,
                 onSuccess: () => {
+                    initActor()
                     updateClient(authClient);
-                    toast.success(`Welcome back ${authClient.getIdentity()}`)
+                    toast.success(`Welcome back ${authClient.getIdentity().getPrincipal()}`)
+
+                    const loggedInUser = {
+                        principal: principal,
+                        role: "admin"
+                    }
+
+                    dispatch(login(loggedInUser))
+
+                    router.push("/account/admin")
+
                 },
             });
         }
@@ -105,12 +123,25 @@ export const useAuthClient = (options = defaultOptions) => {
         setWhoamiActor(actor);
     }
 
+    const initActor = () => {
+        const actor = createActor(canisterId as string, {
+            agentOptions: {
+                identity: authClient?.getIdentity(),
+            },
+        });
+        setWhoamiActor(actor);
+    };
+
     async function logout() {
         if (authClient) {
             await authClient.logout();
             await updateClient(authClient);
         }
     }
+
+    useEffect(() => {
+        if (isAuthenticated) initActor();
+    }, [isAuthenticated]);
 
     return {
         isAuthenticated,

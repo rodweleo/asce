@@ -15,7 +15,7 @@ import AdminLayout from "../../../components/ui/admin-layout";
 export default function AdminDashboard() {
 
     useEffect(() => {
-        document.title = "Dashboard | BizPro"
+        document.title = "Dashboard | asceflow.ai"
     }, [])
 
     const RECENT_SALES = [
