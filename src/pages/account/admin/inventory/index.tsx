@@ -7,44 +7,26 @@ import { Input } from "../../../../components/ui/input"
 import { Plus, Search } from 'lucide-react'
 import AdminLayout from "../../../../components/ui/admin-layout"
 import { AdminInventoryProductList } from "@/components/ui/admin-inventory-product-list"
+import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
+import useMerchantProductsQuery from "@/hooks/use-merchant-products"
+import { Loader } from "@/components/ui/loader"
 
-const inventoryItems = [
-    { id: 1, name: "Product A", sku: "SKU001", quantity: 100, status: "In Stock" },
-    { id: 2, name: "Product B", sku: "SKU002", quantity: 50, status: "Low Stock" },
-    { id: 3, name: "Product C", sku: "SKU003", quantity: 0, status: "Out of Stock" },
-    { id: 4, name: "Product D", sku: "SKU004", quantity: 75, status: "In Stock" },
-    { id: 5, name: "Product E", sku: "SKU005", quantity: 25, status: "Low Stock" },
-]
 
 export default function AdminInventoryManagement() {
     const [searchTerm, setSearchTerm] = useState("")
-    const [sortColumn, setSortColumn] = useState("name")
-    const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
+    const router = useRouter()
+    const pathName = usePathname()
 
+    const { products, isFetching } = useMerchantProductsQuery();
 
     useEffect(() => {
-        document.title = "Inventory | BizPro"
+        document.title = "Inventory | asceflow.ai"
     }, [])
-    
 
-    const sortedItems = [...inventoryItems].sort((a, b) => {
-        if (a[sortColumn as keyof typeof a] < b[sortColumn as keyof typeof b]) {
-            return sortDirection === "asc" ? -1 : 1
-        }
-        if (a[sortColumn as keyof typeof a] > b[sortColumn as keyof typeof b]) {
-            return sortDirection === "asc" ? 1 : -1
-        }
-        return 0
-    })
-
-    const filteredItems = sortedItems.filter(
-        item =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.sku.toLowerCase().includes(searchTerm.toLowerCase())
-    )
 
     const handleAddProduct = () => {
-
+        router.push(`${pathName}/add-product`)
     }
 
     return (
@@ -70,10 +52,14 @@ export default function AdminInventoryManagement() {
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Inventory Items</CardTitle>
+                    <CardTitle>
+                        <div className="flex items-center gap-2.5">
+                            Products {isFetching ? <Loader /> : null}
+                        </div>
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <AdminInventoryProductList products={inventoryItems} />
+                    <AdminInventoryProductList products={products} />
                 </CardContent>
             </Card>
         </div>

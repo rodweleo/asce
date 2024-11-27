@@ -1,13 +1,16 @@
-import { ArrowUpDown } from "lucide-react";
 import { AdminInventoryProductListItem } from "./admin-inventory-product-list-item";
 import { Table, TableHeader, TableRow, TableHead, TableBody } from "./table";
+import type { Principal } from "@dfinity/principal";
 
 export interface ProductItemProps {
-    id: number
+    id: string
     name: string
-    sku: number;
+    description: string
+    price: number;
     quantity: number
-    status: string
+    category: string
+    image: string
+    seller: Principal
 }
 export function AdminInventoryProductList({ products }: {
     products: ProductItemProps[]
@@ -17,18 +20,30 @@ export function AdminInventoryProductList({ products }: {
             <TableHeader>
                 <TableRow>
                     <TableHead className="cursor-pointer">
-                        Product Name <ArrowUpDown className="ml-2 h-4 w-4 inline" />
+                        Id
+                    </TableHead>
+                    <TableHead>Image</TableHead>
+                    <TableHead className="cursor-pointer">
+                        Name
                     </TableHead>
                     <TableHead className="cursor-pointer">
-                        SKU
+                        Description
+                    </TableHead>
+                    <TableHead className="cursor-pointer">
+                        Price
                     </TableHead>
                     <TableHead className="cursor-pointer">
                         Quantity
                     </TableHead>
                     <TableHead className="cursor-pointer">
-                        Status
+                        Category
                     </TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className="cursor-pointer">
+                        Seller
+                    </TableHead>
+                    <TableHead className="cursor-pointer">
+                        Actions
+                    </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>

@@ -3,21 +3,19 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./sidebar"
 import { LogOut, Box, FileText, Home, MessageCircle, Settings, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
 import { Button } from "./button"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
 import { useRouter } from "next/router"
 import { useAuth } from "./use-auth-client"
-import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
-import { Result } from "@/declarations/bizpro-backend/bizpro-backend.did"
 
 export default function AdminSidebar() {
 
     const [activeTab, setActiveTab] = useState("overview")
-    const [businessProfile, setBusinessProfile] = useState<Result | null>(null)
 
     const router = useRouter()
-    const auth = useAuth()
+    const { principal, logout } = useAuth()
+
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
         { icon: Box, label: "Inventory", value: "/account/admin/inventory" },
@@ -39,33 +37,20 @@ export default function AdminSidebar() {
         { icon: Settings, label: "Settings", value: "/account/admin/settings" },
     ]
 
-    const logOut = () => {
-        if (auth) {
-            auth.logout()
+    const handleSignOut = async () => {
+        await logout().then(() => {
             router.replace("/")
-        }
+        })
+
     }
 
-    const getBusinessInfo = async () => {
-
-        const res: Result = await AsceflowBackendActor.readBusinessProfile()
-
-        setBusinessProfile(res)
-        console.log(businessProfile)
-    }
-
-    useEffect(() => {
-        getBusinessInfo()
-    }, [])
 
     return (
         <Sidebar className="bg-white">
             <SidebarHeader>
-                {
-                    <div className="flex items-center gap-2 px-4 py-2">
-                        <span className="text-lg font-bold">{auth?.principal ? auth.principal.toText() : ""}</span>
-                    </div>
-                }
+                <div className="flex items-center gap-2 px-4 py-2">
+                    <span className="text-xl font-bold text-blue-500">{principal?.toString()}</span>
+                </div>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -121,7 +106,7 @@ export default function AdminSidebar() {
                                             isActive={activeTab === item.value}
                                             className="p-4"
                                         >
-                                            <Link href={item.value} className="flex items-center space-y-2.5 gap-2.5">
+                                            <Link href={item.value} className={`flex items-center space-y-2.5 gap-2.5 `}>
                                                 <item.icon className="h-4 w-4" />
                                                 {item.label}
                                             </Link>
@@ -133,7 +118,7 @@ export default function AdminSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <div className="mt-auto p-4">
-                <Button onClick={logOut} variant="outline" className="w-full">
+                <Button onClick={handleSignOut} variant="outline" className="w-full">
                     <LogOut className="mr-2 h-4 w-4" />
                     Log out
                 </Button>

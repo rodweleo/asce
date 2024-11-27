@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react"
 import { Label } from "./label"
 import Link from "next/link"
 import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
-import BizProBackendActor from "@/utils/AsceflowBackendActor"
+import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
 import SignInWithEmailPasswordBtn from "./sign-in-with-email-password-btn"
 
 export const LoginSchema = z.object({

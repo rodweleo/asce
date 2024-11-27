@@ -11,12 +11,19 @@ import {
 } from "../../../components/ui/chart"
 import { ReactElement, useEffect } from "react";
 import AdminLayout from "../../../components/ui/admin-layout";
+import useMerchantProductsQuery from "@/hooks/use-merchant-products";
+import useMerchantSalesQuery from "@/hooks/use-merchant-sales";
+import useMerchantSuppliersQuery from "@/hooks/user-merchant-suppliers";
 
 export default function AdminDashboard() {
 
     useEffect(() => {
         document.title = "Dashboard | asceflow.ai"
     }, [])
+
+    const { products } = useMerchantProductsQuery();
+    const { sales } = useMerchantSalesQuery();
+    const { suppliers } = useMerchantSuppliersQuery();
 
     const RECENT_SALES = [
         { name: "Jan", total: Math.floor(Math.random() * 5000) + 1000 },
@@ -62,37 +69,39 @@ export default function AdminDashboard() {
                             <DollarSign className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">$45,231.89</div>
+                            <div className="text-2xl font-bold">${sales.reduce((sum, ele) => {
+                                return sum + Number(ele.totalAmount)
+                            }, 0)}</div>
                             <p className="text-xs text-muted-foreground">+20.1% from last month</p>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">New Customers</CardTitle>
+                            <CardTitle className="text-sm font-medium">Products</CardTitle>
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">+2350</div>
+                            <div className="text-2xl font-bold">{products.length}</div>
                             <p className="text-xs text-muted-foreground">+180.1% from last month</p>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                            <CardTitle className="text-sm font-medium">Sales / Orders</CardTitle>
                             <BarChart3 className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">+12,234</div>
+                            <div className="text-2xl font-bold">{sales.length}</div>
                             <p className="text-xs text-muted-foreground">+19% from last month</p>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+                            <CardTitle className="text-sm font-medium">Suppliers</CardTitle>
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">+573</div>
+                            <div className="text-2xl font-bold">{suppliers.length}</div>
                             <p className="text-xs text-muted-foreground">+201 since last hour</p>
                         </CardContent>
                     </Card>
@@ -129,7 +138,7 @@ export default function AdminDashboard() {
                     <Card className="col-span-3">
                         <CardHeader>
                             <CardTitle>Recent Sales</CardTitle>
-                            <CardDescription>You made {OVERVIEW.length} sales this month.</CardDescription>
+                            <CardDescription>You made {sales.length} sales this month.</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <ChartContainer config={chartConfig}>

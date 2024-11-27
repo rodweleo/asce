@@ -3,8 +3,27 @@ import Time "mo:base/Time";
 import Principal "mo:base/Principal";
 import Nat64 "mo:base/Nat64";
 import Bool "mo:base/Bool";
+import Blob "mo:base/Blob";
 
 module Types {
+
+    public type Key = Text;
+
+    public type Product = {
+        id : Text;
+        name : Text;
+        description : Text;
+        price : Nat;
+        quantity : Nat;
+        category : Text;
+        image : Text;
+        seller : Principal;
+    };
+
+    public type GetProductByIdResult = {
+        #ok : Product;
+        #err : Text;
+    };
 
     type Bio = {
         name : ?Text;
@@ -47,6 +66,26 @@ module Types {
         password : Text;
     };
 
+    public type Supplier = {
+        id : Text;
+        name : Text;
+        location : Text;
+        products : [Text];
+        email : Text;
+        phone : Text;
+        merchants : [Principal];
+    };
+
+    public type Merchant = {
+        id: Principal;
+        name : Text;
+        businessName: Text;
+        email_notifications : Bool;
+        email_address : Text;
+        phone_notifications : Bool;
+        phone_number : Text;
+    };
+
     public type Business = {
         id : Text;
         ownerId : Text;
@@ -55,84 +94,6 @@ module Types {
         contact : Text;
         location : Text;
         socialLinks : [Text];
-    };
-
-    public type Product = {
-        id : Nat;
-        title : Text;
-        description : Text;
-        category : Text;
-        price : Float;
-        discountPercentage : Float;
-        rating : Float;
-        stock : Nat;
-        tags : [Text];
-        sku : Text;
-        weight : Float;
-        dimensions : Dimensions;
-        warrantyInformation : Text;
-        shippingInformation : Text;
-        availabilityStatus : Text;
-        reviews : [Review];
-        returnPolicy : Text;
-        minimumOrderQuantity : Nat;
-        meta : Meta;
-        images : [Text];
-        thumbnail : Text;
-    };
-
-    type Dimensions = {
-        width : Float;
-        height : Float;
-        depth : Float;
-    };
-
-    type Review = {
-        rating : Float;
-        comment : Text;
-        date : Text;
-        reviewerName : Text;
-        reviewerEmail : Text;
-    };
-
-    type Meta = {
-        createdAt : Text;
-        updatedAt : Text;
-        barcode : Text;
-        qrCode : Text;
-    };
-
-    public type CartItem = {
-        id : Nat;
-        title : Text;
-        price : Float;
-        quantity : Nat;
-        imageUrl : Text;
-    };
-
-    public type Cart = [CartItem];
-
-    public type UserCart = {
-        identity : Text;
-        cart : Cart;
-    };
-
-    public type Order = {
-        id : Text;
-        items : [CartItem];
-        totalAmount : Float;
-        orderDate : Text;
-        orderedBy : Text;
-        paymentStatus : Text;
-        monthlyInstallments : Nat;
-        monthlyInstallmentPayment : Float;
-        modeOfPayment : Text;
-        remainingMonthlyInstallments : Nat;
-    };
-
-    public type GetProductByIdResult = {
-        #ok : Product;
-        #err : Text;
     };
 
     public type Payment = {
@@ -145,6 +106,21 @@ module Types {
     };
 
     public type Timestamp = Nat64;
+
+    public type Sale = {
+        id : Text;
+        merchant : Principal;
+        customer : Text;
+        products : [Text];
+        totalAmount : Nat;
+        paymentMethod : Text;
+        timestamp : Text;
+    };
+
+    public type GetSaleByIdResult = {
+        #ok : Sale;
+        #err : Text;
+    };
 
     // First, define the Type that describes the Request arguments for an HTTPS outcall.
 

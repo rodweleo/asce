@@ -2,15 +2,19 @@
 import { AuthClient } from "@dfinity/auth-client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { canisterId, createActor } from "../../declarations/bizpro-backend";
-import { Identity } from "@dfinity/agent";
+import { HttpAgent, Identity } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/slices/authSlice";
 import { useRouter } from "next/router";
+import { createAgent } from "@dfinity/utils";
 
-interface AuthContentProps { isAuthenticated: boolean; signInWithIcpAuthenticator: () => void; logout: () => Promise<void>; authClient: AuthClient | null; identity: Identity | null; principal: Principal | null; whoamiActor: null; }
-const AuthContext = createContext<AuthContentProps | null>(null);
+interface AuthContentProps { isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; logout: () => Promise<void>; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
+const AuthContext = createContext<Partial<AuthContentProps>>({});
+
+// Mode
+const development = process.env.DFX_NETWORK !== "ic"
 
 export const getIdentityProvider = () => {
     let idpProvider;
@@ -60,12 +64,13 @@ export const defaultOptions = {
  * @returns
  */
 export const useAuthClient = (options = defaultOptions) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [authClient, setAuthClient] = useState<AuthClient | null>(null);
-    const [identity, setIdentity] = useState<Identity | null>(null);
-    const [principal, setPrincipal] = useState<Principal | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
+    const [authClient, setAuthClient] = useState<AuthClient | undefined>();
+    const [identity, setIdentity] = useState<Identity | undefined>(undefined);
+    const [principal, setPrincipal] = useState<Principal | undefined>();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [whoamiActor, setWhoamiActor] = useState<any>(null);
+    const [agent, setAgent] = useState<HttpAgent | undefined>(undefined);
 
     const dispatch = useDispatch();
     const router = useRouter()
@@ -81,7 +86,20 @@ export const useAuthClient = (options = defaultOptions) => {
         if (authClient) {
             authClient.login({
                 ...options.loginOptions,
-                onSuccess: () => {
+                onSuccess: async () => {
+                    const identity = authClient.getIdentity()
+                    setIdentity(identity)
+
+                    // Create an agent
+                    const agent = await createAgent({
+                        identity,
+                        host: development ? "http://localhost:4943" : "https:icp0.io",
+                    });
+                    if (development) {
+                        await agent.fetchRootKey();
+                    }
+                    setAgent(agent);
+
                     initActor()
                     updateClient(authClient);
                     toast.success(`Welcome back ${authClient.getIdentity().getPrincipal()}`)
@@ -103,6 +121,8 @@ export const useAuthClient = (options = defaultOptions) => {
 
 
     async function updateClient(client: AuthClient) {
+        if (!client) return
+
         const isAuthenticated = await client.isAuthenticated();
         setIsAuthenticated(isAuthenticated);
 
@@ -133,10 +153,10 @@ export const useAuthClient = (options = defaultOptions) => {
     };
 
     async function logout() {
-        if (authClient) {
-            await authClient.logout();
-            await updateClient(authClient);
-        }
+        await authClient?.logout();
+        setIdentity(undefined);
+        setIsAuthenticated(false);
+        await updateClient(authClient!);
     }
 
     useEffect(() => {
@@ -151,6 +171,7 @@ export const useAuthClient = (options = defaultOptions) => {
         identity,
         principal,
         whoamiActor,
+        agent
     };
 };
 

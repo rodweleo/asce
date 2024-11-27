@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from "@/redux/store";
 
-const queryClient = new QueryClient()
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -30,6 +30,14 @@ const roboto = Roboto({
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page: ReactElement) => page)
+
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000)
+      }
+    }
+  })
 
   return getLayout(
     <main className={roboto.className}>
