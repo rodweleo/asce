@@ -16,15 +16,15 @@ Asceflow is a platform designed to simplify business operations, empowering merc
 - **Feedback & Reviews**: Collect customer feedback and monitor online reputation.
 
 ## Tech Stack
-- **Frontend**: Built with Next.js for a dynamic and interactive user experience.
-- **Backend**: Powered by Internet Computer Protocol (ICP) and written in Motoko, ensuring decentralized and scalable architecture.
-- **Database**: Canisters for secure and efficient storage.
+- **Frontend**: Built with [Next.js](https://nextjs.org/) for a dynamic and interactive user experience.
+- **Backend**: Powered by [Internet Computer Protocol (ICP)](https://internetcomputer.org/) and written in [Motoko](https://internetcomputer.org/how-it-works/motoko/), ensuring decentralized and scalable architecture.
+- **Database**: [Canisters](https://internetcomputer.org/docs/current/tutorials/developer-journey/level-0/intro-canisters) for secure and efficient storage.
 
 ## How to Access the Platform
 Visit the platform at [Asceflow](https://64s6e-tyaaa-aaaaj-azwoa-cai.icp0.io).  
 
 ## Getting Started
-1. **Sign Up**: Register your business with Asceflow using the [ICP's seamless Intenet Identity](https://internetcomputer.org/docs/current/developer-docs/identity/internet-identity/overview).
+1. **Sign Up**: Register your business with Asceflow using the [ICP's seamless Internet Identity](https://internetcomputer.org/docs/current/developer-docs/identity/internet-identity/overview).
 2. **Onboarding**: Complete the onboarding process to add your business details and preferences.
 3. **Start Managing**: Add suppliers, products, track sales, and manage your social media presence seamlessly.
 
