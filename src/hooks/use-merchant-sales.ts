@@ -7,7 +7,7 @@ const useMerchantSalesQuery = () => {
 
     const queryOptions = {
         refetchIntervalInBackground: true,
-        refetchInterval: 2000
+        refetchInterval: 5000
     }
     const { data, isFetching, error } = useQuery(["sales"], async () => {
         if (principal) {

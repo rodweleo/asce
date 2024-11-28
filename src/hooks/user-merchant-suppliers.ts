@@ -8,9 +8,9 @@ const useMerchantSuppliersQuery = () => {
 
     const queryOptions = {
         refetchIntervalInBackground: true,
-        refetchInterval: 2000
+        refetchInterval: 5000
     }
-    
+
     const { data, isFetching, error } = useQuery(["suppliers"], async () => {
         if (principal) {
             return fetchMerchantSuppliers(principal);
