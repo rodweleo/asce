@@ -13,7 +13,7 @@ const useMerchantProductsQuery = () => {
         if (principal) {
             return fetchMerchantProducts(principal);
         }
-    }, queryOptions)
+    })
 
     const products = data ? data : []
     return {

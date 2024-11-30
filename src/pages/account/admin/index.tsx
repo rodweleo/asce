@@ -14,6 +14,8 @@ import AdminLayout from "../../../components/ui/admin-layout";
 import useMerchantProductsQuery from "@/hooks/use-merchant-products";
 import useMerchantSalesQuery from "@/hooks/use-merchant-sales";
 import useMerchantSuppliersQuery from "@/hooks/user-merchant-suppliers";
+import AdminDashboardPopularProductsCard from "@/components/ui/admin-dashboard-popular-products-card";
+import Image from "next/image"
 
 export default function AdminDashboard() {
 
@@ -135,7 +137,7 @@ export default function AdminDashboard() {
                             </ChartContainer>
                         </CardContent>
                     </Card>
-                    <Card className="col-span-3">
+                    <Card className="col-span-4 sm:col-span-3">
                         <CardHeader>
                             <CardTitle>Recent Sales</CardTitle>
                             <CardDescription>You made {sales.length} sales this month.</CardDescription>
@@ -173,7 +175,24 @@ export default function AdminDashboard() {
                             </ChartContainer>
                         </CardContent>
                     </Card>
+                    <div className="col-span-4 sm:col-span-3 py-6 px-4 bg-blue-800 rounded-lg flex items-center justify-between">
+                        <div className="space-y-4">
+                            <div>
+                                <h1 className="text-3xl text-white font-bold">Need more Stats ?</h1>
+                                <p className="text-slate-200">Upgrade to pro for added benefits.</p>
+                            </div>
+                            <button className="bg-white text-primary font-bold tracking-wider px-10 py-2 rounded-lg">GET UNLIMITED ACCESS</button>
+                        </div>
+                        <div className="relative">
+                            <Image src="/icons/icons8-combo-chart-94.png" alt="Chart" width={125} height={20} />
+                            <Image src="/icons/icons8-last-24-hours-94.png" alt="Chart" width={50} height={20} className="absolute -left-2 top-2/3" />
+                            <Image src="/icons/icons8-grey-gear-94.png" alt="Chart" width={30} height={20} className="absolute -right-1 top-2/4" />
+                        </div>
+                    </div>
+                    <AdminDashboardPopularProductsCard />
                 </div>
+
+
             </main>
         </div>
     )

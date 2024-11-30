@@ -10,7 +10,7 @@ import { login } from "@/redux/slices/authSlice";
 import { useRouter } from "next/router";
 import { createAgent } from "@dfinity/utils";
 
-interface AuthContentProps { isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; logout: () => Promise<void>; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
+interface AuthContentProps { isAuthenticating: boolean; isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; signInWithPlugWallet: () => void; logout: () => void; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
 const AuthContext = createContext<Partial<AuthContentProps>>({});
 
 // Mode
@@ -64,6 +64,7 @@ export const defaultOptions = {
  * @returns
  */
 export const useAuthClient = (options = defaultOptions) => {
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
     const [authClient, setAuthClient] = useState<AuthClient | undefined>();
     const [identity, setIdentity] = useState<Identity | undefined>(undefined);
@@ -71,6 +72,7 @@ export const useAuthClient = (options = defaultOptions) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [whoamiActor, setWhoamiActor] = useState<any>(null);
     const [agent, setAgent] = useState<HttpAgent | undefined>(undefined);
+    const [accountIs, setAccountId] = useState()
 
     const dispatch = useDispatch();
     const router = useRouter()
@@ -120,6 +122,48 @@ export const useAuthClient = (options = defaultOptions) => {
     };
 
 
+
+    const signInWithPlugWallet = async () => {
+        const whiteListCanisters: string[] = [
+            "7w546-riaaa-aaaaj-azwja-cai",
+            "64s6e-tyaaa-aaaaj-azwoa-cai",
+        ]
+
+        const host: string = "https://mainnet.dfinity.network";
+
+        const options = {
+            whitelist: whiteListCanisters,
+            host: host,
+            timeout: 50000
+        }
+
+        setIsAuthenticating(true)
+        if (typeof window !== "undefined") {
+
+            try {
+                const publicKey = await window.ic.plug.requestConnect();
+
+                const agent: HttpAgent = await window.ic.plug.agent;
+                const isWalletLocked: boolean = await window.ic.plug.isWalletLocked;
+                const principalId: Principal = await window.ic.plug.principalId;
+                const accountId = await window.ic.plug.accountId;
+
+                console.log(agent)
+                console.log(isWalletLocked)
+                console.log(principalId)
+                console.log(accountId)
+
+            } catch (e) {
+                toast.error(e.message);
+            } finally {
+                setIsAuthenticating(false)
+            }
+
+        }
+
+    }
+
+
     async function updateClient(client: AuthClient) {
         if (!client) return
 
@@ -164,8 +208,10 @@ export const useAuthClient = (options = defaultOptions) => {
     }, [isAuthenticated]);
 
     return {
+        isAuthenticating,
         isAuthenticated,
         signInWithIcpAuthenticator,
+        signInWithPlugWallet,
         logout,
         authClient,
         identity,

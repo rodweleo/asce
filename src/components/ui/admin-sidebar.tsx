@@ -1,20 +1,17 @@
 "use client"
 
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./sidebar"
-import { LogOut, Box, FileText, Home, MessageCircle, Settings, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
-import { Button } from "./button"
+import { Box, FileText, Home, MessageCircle, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
-import { useRouter } from "next/router"
 import { useAuth } from "./use-auth-client"
 
 export default function AdminSidebar() {
 
     const [activeTab, setActiveTab] = useState("overview")
 
-    const router = useRouter()
-    const { principal, logout } = useAuth()
+    const { principal } = useAuth()
 
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
@@ -33,17 +30,8 @@ export default function AdminSidebar() {
                 // { icon: MessageCircle, label: "Engagement Metrics", value: "/account/admin/digital-marketing/engagement-metrics" },
                 // { icon: MessageCircle, label: "Platform integration", value: "/account/admin/digital-marketing/platform-integration" },
             ]
-        },
-        { icon: Settings, label: "Settings", value: "/account/admin/settings" },
+        }
     ]
-
-    const handleSignOut = async () => {
-        await logout().then(() => {
-            router.replace("/")
-        })
-
-    }
-
 
     return (
         <Sidebar className="bg-white">
@@ -117,12 +105,7 @@ export default function AdminSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <div className="mt-auto p-4">
-                <Button onClick={handleSignOut} variant="outline" className="w-full">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                </Button>
-            </div>
+
         </Sidebar>
     )
 }

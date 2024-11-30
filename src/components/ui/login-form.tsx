@@ -16,6 +16,7 @@ import Link from "next/link"
 import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
 import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
 import SignInWithEmailPasswordBtn from "./sign-in-with-email-password-btn"
+import SignInWithPlugWalletBtn from "./sign-in-with-plug-wallet-btn"
 
 export const LoginSchema = z.object({
     email: z.string().email({
@@ -67,6 +68,7 @@ export default function LoginForm() {
                         <div className="space-y-5">
                             <div className="flex flex-col items-center gap-4">
                                 <SignInWithIcpAuthenticatorBtn />
+                                <SignInWithPlugWalletBtn />
                                 <SignInWithEmailPasswordBtn />
                             </div>
                             <div className="flex items-center hidden">

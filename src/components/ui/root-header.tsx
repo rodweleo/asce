@@ -10,16 +10,17 @@ export default function RootHeader() {
     const isMobile = useIsMobile()
 
     return (
-        <header className="sticky top-0 z-50 h-20 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-50 h-20 w-full border-b bg-white/75 backdrop-blur">
             <div className="container flex justify-between h-full items-center">
                 <Link className="mr-6 flex items-center space-x-2" href="/">
                     <span className="font-bold sm:inline-block text-primary">asceflow.ai</span>
                 </Link>
                 {isMobile ? <RootMobileNav /> : <>
-                    <nav className="flex items-center space-x-6 text-sm font-medium">
+                    <nav className="flex items-center space-x-8 text-sm font-medium">
                         <Link href="#features">Features</Link>
                         <Link href="#pricing">Pricing</Link>
                         <Link href="#testimonials">Testimonials</Link>
+                        <Link href="#contact">Contact</Link>
                     </nav>
 
                     <div className="items-center justify-between gap-5 space-x-5">
