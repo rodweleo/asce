@@ -11,7 +11,8 @@ import { BorderBeam } from './border-beam';
 
 export default function HeroSection() {
     return (
-        <section className="w-full py-12 md:py-4 lg:py-4 xl:py-16 min-h-screen mt-20 grid place-items-center">
+        <section className="w-full relative py-12 md:py-4 lg:py-4 xl:py-16 min-h-screen mt-20 grid place-items-center">
+            <Image src="/images/DALL_E-2024-12-03-11.13-removebg-preview.png" width={500} height={500} alt="Streamline your Business operations" className="absolute top-0 left-40 z-[-0.75]" />
             <div className="container px-4 md:px-6 space-y-10">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="space-y-4 grid place-items-center">
