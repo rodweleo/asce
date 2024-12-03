@@ -14,9 +14,9 @@ import { Loader2 } from "lucide-react"
 import { Label } from "./label"
 import Link from "next/link"
 import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
-import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
-import SignInWithEmailPasswordBtn from "./sign-in-with-email-password-btn"
 import SignInWithPlugWalletBtn from "./sign-in-with-plug-wallet-btn"
+import SignInWithNfidBtn from "./sign-in-with-nfid-btn"
+import SignInWithBitcoinBtn from "./sign-in-with-bitcoin-btn"
 
 export const LoginSchema = z.object({
     email: z.string().email({
@@ -47,9 +47,7 @@ export default function LoginForm() {
         formData.set("pass", values.password)
 
 
-        const greeting = await AsceflowBackendActor.greet(values.email)
-
-        toast.success(`Welcome back ${greeting}`)
+        toast.success(`Welcome back ${values.email}`)
 
         setSubmitting(false)
 
@@ -69,7 +67,8 @@ export default function LoginForm() {
                             <div className="flex flex-col items-center gap-4">
                                 <SignInWithIcpAuthenticatorBtn />
                                 <SignInWithPlugWalletBtn />
-                                <SignInWithEmailPasswordBtn />
+                                <SignInWithBitcoinBtn />
+                                <SignInWithNfidBtn />
                             </div>
                             <div className="flex items-center hidden">
                                 <hr className="w-full" />

@@ -9,13 +9,12 @@ import { Button } from './button';
 import Image from "next/image"
 import { BorderBeam } from './border-beam';
 
-
 export default function HeroSection() {
     return (
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section className="w-full py-12 md:py-4 lg:py-4 xl:py-16 min-h-screen mt-20 grid place-items-center">
             <div className="container px-4 md:px-6 space-y-10">
                 <div className="flex flex-col items-center space-y-4 text-center">
-                    <div className="space-y-4">
+                    <div className="space-y-4 grid place-items-center">
                         <div className="flex items-center justify-center">
                             <AnimatedGradientText>
                                 🎉 <hr className="mx-2 w-px shrink-0 bg-gray-300" />{" "}
@@ -29,16 +28,16 @@ export default function HeroSection() {
                                 <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
                             </AnimatedGradientText>
                         </div>
-                        <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-winde">
-                            Streamline Your Business with <span className="text-primary">asceflow.ai</span>
+                        <h1 className="tracking-wide text-5xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-winde">
+                            Streamline Your Business Operations
                         </h1>
-                        <p className="mx-auto max-w-[700px] text-gray-500 sm:text-lg md:text-xl lg:text-2xl dark:text-gray-400">
-                            Automate inventory, simplify supplier coordination, and boost customer engagement with our AI-powered platform.
+                        <p className="w-full max-w-4xl text-neutral-500 sm:text-md md:text-lg lg:text-xl dark:text-neutral-800">
+                            End-to-end business management from automated inventory management to social media management in a single solution. <br /> Meet <span className="text-blue-500 font-bold">asceflow.ai</span>, the right platform to help you realize your business goals.
                         </p>
                     </div>
-                    <div className="flex flex-wrap gap-5 items-center justify-center *:px-10">
+                    <div className="tracking-wide flex flex-wrap gap-5 items-center justify-center *:px-10">
                         <Button asChild>
-                            <Link href="/onboarding">Start Free Trial</Link>
+                            <Link href="/onboarding">Get Started</Link>
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href="#features">
@@ -56,5 +55,6 @@ export default function HeroSection() {
                 </div>
             </div>
         </section>
+
     )
 }

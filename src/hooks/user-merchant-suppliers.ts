@@ -15,7 +15,7 @@ const useMerchantSuppliersQuery = () => {
         if (principal) {
             return fetchMerchantSuppliers(principal);
         }
-    }, queryOptions)
+    })
 
     const suppliers = data ? data : [];
 

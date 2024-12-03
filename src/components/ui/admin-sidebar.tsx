@@ -37,7 +37,7 @@ export default function AdminSidebar() {
         <Sidebar className="bg-white">
             <SidebarHeader>
                 <div className="flex items-center gap-2 px-4 py-2">
-                    <span className="text-xl font-bold text-blue-500">{principal?.toString()}</span>
+                    <span className="text-xl font-bold text-blue-500">{principal?.toText()}</span>
                 </div>
             </SidebarHeader>
             <SidebarContent>

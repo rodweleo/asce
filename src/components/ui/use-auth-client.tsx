@@ -10,7 +10,7 @@ import { login } from "@/redux/slices/authSlice";
 import { useRouter } from "next/router";
 import { createAgent } from "@dfinity/utils";
 
-interface AuthContentProps { isAuthenticating: boolean; isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; signInWithPlugWallet: () => void; logout: () => void; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
+interface AuthContentProps { isAuthenticating: boolean; isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; signInWithPlugWallet: () => void; signInWithNfid: () => void; logout: () => void; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
 const AuthContext = createContext<Partial<AuthContentProps>>({});
 
 // Mode
@@ -68,11 +68,11 @@ export const useAuthClient = (options = defaultOptions) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
     const [authClient, setAuthClient] = useState<AuthClient | undefined>();
     const [identity, setIdentity] = useState<Identity | undefined>(undefined);
-    const [principal, setPrincipal] = useState<Principal | undefined>();
+    const [principal, setPrincipal] = useState<Principal | undefined>(undefined);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [whoamiActor, setWhoamiActor] = useState<any>(null);
     const [agent, setAgent] = useState<HttpAgent | undefined>(undefined);
-    const [accountIs, setAccountId] = useState()
+    const [accountId, setAccountId] = useState(undefined)
 
     const dispatch = useDispatch();
     const router = useRouter()
@@ -151,7 +151,7 @@ export const useAuthClient = (options = defaultOptions) => {
                 console.log(agent)
                 console.log(isWalletLocked)
                 console.log(principalId)
-                console.log(accountId)
+                setAccountId(accountId)
 
             } catch (e) {
                 toast.error(e.message);
@@ -161,6 +161,33 @@ export const useAuthClient = (options = defaultOptions) => {
 
         }
 
+    }
+
+    const signInWithNfid = async () => {
+        const authClient = await AuthClient.create(defaultOptions.createOptions);
+
+        const APP_NAME = "Asceflow.ai";
+        const APP_LOGO = "https://yourapp.com/logo.png";
+        const CONFIG_QUERY = `?applicationName=${APP_NAME}&applicationLogo=${APP_LOGO}`;
+
+        const identityProvider = `https://nfid.one/authenticate${CONFIG_QUERY}`;
+
+        await new Promise<void>((resolve, reject) => {
+            authClient.login({
+                identityProvider,
+                onSuccess: () => {
+                    toast.success(`Welcome back ${authClient.getIdentity().getPrincipal().toText()}`)
+                    updateClient(authClient);
+                    resolve();
+                },
+                onError: reject,
+                windowOpenerFeatures: `
+        left=${window.screen.width / 2 - 525 / 2},
+        top=${window.screen.height / 2 - 705 / 2},
+        toolbar=0,location=0,menubar=0,width=525,height=705
+      `,
+            });
+        });
     }
 
 
@@ -197,11 +224,16 @@ export const useAuthClient = (options = defaultOptions) => {
     };
 
     async function logout() {
-        await authClient?.logout();
+        if (!authClient) {
+            return;
+        }
+
+        await authClient.logout();
         setIdentity(undefined);
         setIsAuthenticated(false);
         await updateClient(authClient!);
     }
+
 
     useEffect(() => {
         if (isAuthenticated) initActor();
@@ -212,12 +244,14 @@ export const useAuthClient = (options = defaultOptions) => {
         isAuthenticated,
         signInWithIcpAuthenticator,
         signInWithPlugWallet,
+        signInWithNfid,
         logout,
         authClient,
         identity,
         principal,
         whoamiActor,
-        agent
+        agent,
+        accountId
     };
 };
 
