@@ -12,6 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from "@/redux/store";
 import "@nfid/identitykit/react/styles.css"
 import { IdentityKitProvider } from "@nfid/identitykit/react"
+import LoginModal from "@/components/ui/login-modal";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -52,6 +53,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
               <QueryClientProvider client={queryClient}>
                 <SidebarProvider>
                   <Component {...pageProps} />
+                  <LoginModal />
                   <Toaster />
                 </SidebarProvider>
               </QueryClientProvider>

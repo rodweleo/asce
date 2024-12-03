@@ -8,11 +8,14 @@ import AnimatedGradientText from '@/components/magicui/animated-gradient-text';
 import { Button } from './button';
 import Image from "next/image"
 import { BorderBeam } from './border-beam';
+import useLoginModal from '@/hooks/use-login-modal';
 
 export default function HeroSection() {
+    const loginModal = useLoginModal()
+
     return (
         <section className="w-full relative py-12 md:py-4 lg:py-4 xl:py-16 min-h-screen mt-20 grid place-items-center">
-            <Image src="/images/DALL_E-2024-12-03-11.13-removebg-preview.png" width={500} height={500} alt="Streamline your Business operations" className="absolute top-0 left-40 z-[-0.75]" />
+            <Image src="/images/DALL_E-2024-12-03-11.13-removebg-preview.png" width={500} height={500} alt="Streamline your Business operations" className="absolute top-0 left-20 -z-20" />
             <div className="container px-4 md:px-6 space-y-10">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="space-y-4 grid place-items-center">
@@ -37,8 +40,8 @@ export default function HeroSection() {
                         </p>
                     </div>
                     <div className="tracking-wide flex flex-wrap gap-5 items-center justify-center *:px-10">
-                        <Button asChild>
-                            <Link href="/onboarding">Get Started</Link>
+                        <Button onClick={() => loginModal.setOpen(true)}>
+                            Get Started
                         </Button>
                         <Button variant="outline" asChild>
                             <Link href="#features">

@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import { ReactNode } from "react"
 import { Badge } from "./badge";
 import { IconSparkles } from "@tabler/icons-react";
+import { requestPlugWalletTransfer } from "@/functions/requestPlugWalletTrasfer";
 
 interface PricingPlanProps {
     name: string
@@ -44,6 +45,11 @@ const RecommendedPricingPlanCard = ({ name, description, price, features, icon }
         router.push(redirectUrl)
     }
 
+    const subscribeToPlan = async () => {
+        await requestPlugWalletTransfer("ABCD", price);
+    }
+
+
     return (
         <Card key={name} className="w-full sm:w-[300px] bg-blue-500 scale-[1.10]">
             <CardHeader className="tracking-wide">
@@ -79,7 +85,7 @@ const RecommendedPricingPlanCard = ({ name, description, price, features, icon }
                 </div>
             </CardContent>
             <CardFooter>
-                <Button className="w-full bg-white text-blue-500 font-bold tracking-wide hover:border-2 hover-border-white hover:text-white hover:bg-transparent" onClick={navigateToOnboardingPage}>
+                <Button className="w-full bg-white text-blue-500 font-bold tracking-wide hover:border-2 hover-border-white hover:text-white hover:bg-transparent" onClick={subscribeToPlan}>
                     SUBSCRIBE
                 </Button>
             </CardFooter>
@@ -94,6 +100,10 @@ const NormalPricingPlanCard = ({ name, description, price, features, icon }: Pri
     const navigateToOnboardingPage = () => {
         const redirectUrl = `/onboarding?plan=${name.toLowerCase().replaceAll(" ", "-")}`
         router.push(redirectUrl)
+    }
+
+    const subscribeToPlan = async () => {
+        await requestPlugWalletTransfer("ABCD", price);
     }
 
     return (
@@ -128,7 +138,7 @@ const NormalPricingPlanCard = ({ name, description, price, features, icon }: Pri
                 </div>
             </CardContent>
             <CardFooter>
-                <Button className="w-full" onClick={navigateToOnboardingPage}>
+                <Button className="w-full" onClick={subscribeToPlan}>
                     SUBSCRIBE
                 </Button>
             </CardFooter>

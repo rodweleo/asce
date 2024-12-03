@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ReactElement } from "react"
+import { useState, ReactElement, useEffect } from "react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
@@ -8,10 +8,16 @@ import { Label } from "../../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
 import Link from "next/link"
 import RootLayout from "../../components/ui/root-layout"
+import SignUpForm from "@/components/ui/sign-up-form"
 
 export default function SignUpPage() {
     const [isLoading, setIsLoading] = useState(false)
 
+
+    useEffect(() => {
+        document.title = "Register Business | asceflow.ai"
+    }, [])
+    
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setIsLoading(true)
@@ -24,8 +30,9 @@ export default function SignUpPage() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <Card className="w-full max-w-md">
+        <div className="flex items-center justify-center min-h-screen dark:bg-gray-900 w-full">
+            <SignUpForm />
+            <Card className="hidden w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Create an account</CardTitle>
                     <CardDescription>Get started with BizPro</CardDescription>

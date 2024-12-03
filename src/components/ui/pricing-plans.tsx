@@ -13,6 +13,7 @@ export default function PricingPlans() {
         // { name: "Enterprise", description: "An enterprise plan with advanced features for large organizations", price: 7.75, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"] },
         // { name: "Ultimate", description: "The ultimate plan with all features for industry leaders", price: 10, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"] },
     ]
+    
     return (
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 dark:bg-gray-800">
             <div className="px-4 md:px-6 space-y-10 grid place-items-center w-full">

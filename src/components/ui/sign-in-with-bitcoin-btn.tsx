@@ -12,7 +12,7 @@ export default function SignInWithBitcoinBtn() {
     return (
         <Button type="button" onClick={signInWithNfid} disabled={isAuthenticating} className="w-full flex items-center justify-center" variant="outline">
             <Image src="/logos/btc.svg" alt="Bitcoin" width={20} height={25} />
-            <div className="font-semibold flex items-center gap-2.5"> {isAuthenticating && <Loader />} SIGN IN WITH BITCOIN</div>
+            <div className="font-semibold flex items-center gap-2.5"> {isAuthenticating && <Loader />} CONTINUE WITH BITCOIN</div>
         </Button>
     )
 }

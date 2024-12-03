@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
-import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
+// import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
 
 
 export default {
@@ -13,7 +13,7 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '1rem'
+			padding: '2rem'
 		},
 		extend: {
 			colors: {
@@ -150,17 +150,17 @@ export default {
 			}
 		}
 	},
-	plugins: [tailwindcssAnimate, addVariablesForColors],
+	plugins: [tailwindcssAnimate],
 } satisfies Config;
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
-function addVariablesForColors({ addBase, theme }: any) {
-	const allColors = flattenColorPalette(theme("colors"));
-	const newVars = Object.fromEntries(
-		Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-	);
+// function addVariablesForColors({ addBase, theme }: any) {
+// 	const allColors = flattenColorPalette(theme("colors"));
+// 	const newVars = Object.fromEntries(
+// 		Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+// 	);
 
-	addBase({
-		":root": newVars,
-	});
-}
+// 	addBase({
+// 		":root": newVars,
+// 	});
+// }

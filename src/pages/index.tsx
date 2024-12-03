@@ -10,8 +10,10 @@ import { TestimonialsSection } from "@/components/ui/testimonials-section";
 import { Button } from "@/components/ui/button";
 import Marquee from "@/components/magicui/marquee";
 import Image from "next/image"
+import useLoginModal from "@/hooks/use-login-modal";
 
 export default function RootLandingPage() {
+  const loginModal = useLoginModal()
 
   useEffect(() => {
     document.title = "Home | asceflow.ai"
@@ -45,7 +47,7 @@ export default function RootLandingPage() {
   ];
 
   return (
-    <main >
+    <main className="min-h-screen flex flex-col w-full">
       <HeroSection />
       <TrustedSmesSection />
       <FeaturesSection />
@@ -57,7 +59,7 @@ export default function RootLandingPage() {
             <h1 className="text-blue-800 sm:text-6xl tracking-wider font-bold">
               Ready to Supercharge Your Business Operations ?
             </h1>
-            <Button>Get Started</Button>
+            <Button onClick={() => loginModal.setOpen(true)}>Get Started</Button>
           </div>
 
           <div className="flex h-full flex-row gap-4 [perspective:800px] w-fit relative">
