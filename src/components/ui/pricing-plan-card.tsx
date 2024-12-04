@@ -7,7 +7,7 @@ import { useRouter } from "next/router"
 import { ReactNode } from "react"
 import { Badge } from "./badge";
 import { IconSparkles } from "@tabler/icons-react";
-import { requestPlugWalletTransfer } from "@/functions/requestPlugWalletTrasfer";
+import { requestPlugWalletTransfer } from "@/functions/requestPlugWalletTransfer";
 
 interface PricingPlanProps {
     name: string

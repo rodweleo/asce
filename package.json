@@ -50,7 +50,7 @@
     "cobe": "^0.6.3",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.4.0",
-    "framer-motion": "^11.12.0",
+    "framer-motion": "^11.13.1",
     "ic-use-siwb-identity": "^0.1.0",
     "local-storage": "^2.0.0",
     "lucide-react": "^0.460.0",
