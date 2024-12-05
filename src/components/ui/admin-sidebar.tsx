@@ -11,7 +11,7 @@ export default function AdminSidebar() {
 
     const [activeTab, setActiveTab] = useState("overview")
 
-    const { principal } = useAuth()
+    const { whoAmI } = useAuth()
 
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
@@ -34,10 +34,11 @@ export default function AdminSidebar() {
         }
     ]
 
+
     return (
         <Sidebar className="bg-white">
             <SidebarHeader>
-                <h1 className="text-xl font-bold text-blue-500">{principal!.toString()}</h1>
+                <h1 className="text-xl font-bold text-blue-500">{whoAmI}</h1>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -104,7 +105,6 @@ export default function AdminSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-
         </Sidebar>
     )
 }

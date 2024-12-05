@@ -9,8 +9,9 @@ import { useDispatch } from "react-redux";
 import { login } from "@/redux/slices/authSlice";
 import { useRouter } from "next/router";
 import { createAgent } from "@dfinity/utils";
+import AsceflowBackendActor from "@/utils/AsceflowBackendActor";
 
-interface AuthContentProps { isAuthenticating: boolean; isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; signInWithPlugWallet: () => void; signInWithNfid: () => void; logout: () => void; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined }
+interface AuthContentProps { isAuthenticating: boolean; isAuthenticated: boolean | undefined; signInWithIcpAuthenticator: () => void; signInWithPlugWallet: () => void; signInWithNfid: () => void; logout: () => void; authClient: AuthClient | undefined; identity: Identity | undefined; principal: Principal | undefined; whoamiActor: null; agent: HttpAgent | undefined, whoAmI: string }
 const AuthContext = createContext<Partial<AuthContentProps>>({});
 
 // Mode
@@ -73,7 +74,7 @@ export const useAuthClient = (options = defaultOptions) => {
     const [whoamiActor, setWhoamiActor] = useState<any>(null);
     const [agent, setAgent] = useState<HttpAgent | undefined>(undefined);
     const [accountId, setAccountId] = useState(undefined)
-
+    const [whoAmI, setWhoAmI] = useState<string>("")
     const dispatch = useDispatch();
     const router = useRouter()
 
@@ -212,6 +213,10 @@ export const useAuthClient = (options = defaultOptions) => {
         });
 
         setWhoamiActor(actor);
+
+        const whoAmI = await AsceflowBackendActor.whoami();
+        setWhoAmI(whoAmI);
+
     }
 
     const initActor = () => {
@@ -251,7 +256,8 @@ export const useAuthClient = (options = defaultOptions) => {
         principal,
         whoamiActor,
         agent,
-        accountId
+        accountId,
+        whoAmI
     };
 };
 
