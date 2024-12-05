@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import AdminProfileBtn from './admin-profile-btn';
+import useActivePageName from '@/hooks/use-active-page-name';
 
 interface AdminLayoutProps {
     children: ReactNode;
@@ -14,19 +15,21 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
     const router = useRouter();
+    const { activePageName } = useActivePageName()
 
     return (
         <SidebarProvider>
-            <div className="flex w-full">
+            <div className="flex w-full h-screen">
                 <AdminSidebar />
-                <main className='w-full h-full '>
+                <main className='w-full'>
                     <header className="sticky top-0 z-10 bg-white border-b">
                         <div className="flex items-center justify-between px-4 py-2">
                             <SidebarTrigger />
+                            <h1 className="font-bold text-xl">{activePageName}</h1>
                             <AdminProfileBtn />
                         </div>
                     </header>
-                    <section className="container mx-auto py-10 overflow-y-auto bg-gray-50">
+                    <section className="container mx-auto py-5 bg-gray-50">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={router.pathname}

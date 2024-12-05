@@ -15,6 +15,7 @@ export default function AdminSidebar() {
 
     const sidebarItems = [
         { icon: Home, label: "Overview", value: "/account/admin" },
+        { icon: Box, label: "Point of Sale", value: "/account/admin/pos" },
         { icon: Box, label: "Inventory", value: "/account/admin/inventory" },
         { icon: Box, label: "Orders", value: "/account/admin/orders" },
         { icon: Truck, label: "Suppliers", value: "/account/admin/suppliers" },
@@ -36,9 +37,7 @@ export default function AdminSidebar() {
     return (
         <Sidebar className="bg-white">
             <SidebarHeader>
-                <div className="flex items-center gap-2 px-4 py-2">
-                    <span className="text-xl font-bold text-blue-500">{principal?.toText()}</span>
-                </div>
+                <h1 className="text-xl font-bold text-blue-500">{principal!.toString()}</h1>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>

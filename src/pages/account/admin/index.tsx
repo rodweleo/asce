@@ -191,8 +191,6 @@ export default function AdminDashboard() {
                     </div>
                     <AdminDashboardPopularProductsCard />
                 </div>
-
-
             </main>
         </div>
     )

@@ -17,7 +17,7 @@ export default function SignUpPage() {
     useEffect(() => {
         document.title = "Register Business | asceflow.ai"
     }, [])
-    
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         setIsLoading(true)
@@ -31,18 +31,13 @@ export default function SignUpPage() {
 
     return (
         <div className="flex items-center justify-center min-h-screen dark:bg-gray-900 w-full">
-            <SignUpForm />
-            <Card className="hidden w-full max-w-md">
+            <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Create an account</CardTitle>
-                    <CardDescription>Get started with BizPro</CardDescription>
+                    <CardDescription>Get started with asceflow.ai</CardDescription>
                 </CardHeader>
                 <form onSubmit={handleSubmit}>
                     <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="Enter your email" required />
-                        </div>
                         <div className="space-y-2">
                             <Label htmlFor="business-name">Business Name</Label>
                             <Input id="business-name" placeholder="Enter your business name" required />
@@ -62,14 +57,7 @@ export default function SignUpPage() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" placeholder="Create a password" required />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="confirm-password">Confirm Password</Label>
-                            <Input id="confirm-password" type="password" placeholder="Confirm your password" required />
-                        </div>
+
                     </CardContent>
                     <CardFooter className="flex flex-col space-y-4">
                         <Button type="submit" className="w-full" disabled={isLoading}>
@@ -77,9 +65,9 @@ export default function SignUpPage() {
                         </Button>
                         <p className="text-sm text-center text-gray-500 dark:text-gray-400">
                             Already have an account?{" "}
-                            <Link href="/login" className="text-primary hover:underline">
+                            <Button className="text-primary hover:underline">
                                 Log in
-                            </Link>
+                            </Button>
                         </p>
                     </CardFooter>
                 </form>
