@@ -31,7 +31,7 @@ export default function AdminOrderManagement() {
 
     return (
         <div className="w-full">
-            <h1 className="text-3xl font-bold mb-6">Order Management</h1>
+            <h1 className="text-3xl font-bold mb-6 text-black">Order Management</h1>
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-2">
                     <Input
