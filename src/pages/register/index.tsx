@@ -43,7 +43,11 @@ export default function SignUpPage() {
                             <Input id="business-name" placeholder="Enter your business name" required />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="industry">Industry</Label>
+                            <Label htmlFor="business-email">Business Email</Label>
+                            <Input id="business-email" type="email" placeholder="Enter your business email" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="industry">Business Industry</Label>
                             <Select required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select your industry" />
