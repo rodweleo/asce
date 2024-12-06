@@ -69,7 +69,7 @@ export default function SignUpPage() {
                         </Button>
                         <p className="text-sm text-center text-gray-500 dark:text-gray-400">
                             Already have an account?{" "}
-                            <Button className="text-primary hover:underline">
+                            <Button className="text-white hover:underline">
                                 Log in
                             </Button>
                         </p>

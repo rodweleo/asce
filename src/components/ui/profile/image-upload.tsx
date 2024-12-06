@@ -66,7 +66,7 @@ export function ImageUpload({ value, onChange, onBlur }: ImageUploadProps) {
         )}
       </div>
       {preview && (
-        <Button onClick={removeImage} variant="outline">
+        <Button onClick={removeImage} variant="outline" className="bg-gray-300 text-black hover:bg-blue-600">
           Remove Image
         </Button>
       )}
