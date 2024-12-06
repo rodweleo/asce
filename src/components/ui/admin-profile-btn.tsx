@@ -48,8 +48,11 @@ export default function AdminProfileBtn() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        <User />
-                        <span>Profile</span>
+                        
+                        <Link href="/account/admin/profile" className="flex items-center gap-2">
+                            <User/>
+                            <span>Profile</span>
+                        </Link>
 
                     </DropdownMenuItem>
                     <DropdownMenuItem>

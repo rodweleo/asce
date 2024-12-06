@@ -43,7 +43,11 @@ export default function SignUpPage() {
                             <Input id="business-name" placeholder="Enter your business name" required />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="industry">Industry</Label>
+                            <Label htmlFor="business-email">Business Email</Label>
+                            <Input id="business-email" type="email" placeholder="Enter your business email" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="industry">Business Industry</Label>
                             <Select required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select your industry" />
@@ -65,7 +69,7 @@ export default function SignUpPage() {
                         </Button>
                         <p className="text-sm text-center text-gray-500 dark:text-gray-400">
                             Already have an account?{" "}
-                            <Button className="text-primary hover:underline">
+                            <Button className="text-white hover:underline">
                                 Log in
                             </Button>
                         </p>
