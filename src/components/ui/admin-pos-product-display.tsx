@@ -3,55 +3,9 @@ import { Plus, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "./input"
+import useMerchantProductsQuery from "@/hooks/use-merchant-products"
+import { Product } from "@/declarations/bizpro-backend/bizpro-backend.did"
 
-interface Product {
-    id: string
-    name: string
-    description: string
-    price: number
-    image: string
-    itemCount: number
-    category: string
-}
-
-const products: Product[] = [
-    {
-        id: "1",
-        name: "Haworthia",
-        description: "Amet minim mollit non deserunt ullamco est sit aliqua.",
-        price: 50.0,
-        image: "/placeholder.svg",
-        itemCount: 11,
-        category: "Succulents"
-    },
-    {
-        id: "2",
-        name: "Aspidistra",
-        description: "Amet minim mollit non deserunt ullamco est sit aliqua.",
-        price: 50.0,
-        image: "/placeholder.svg",
-        itemCount: 15,
-        category: "Indoor Plants"
-    },
-    {
-        id: "3",
-        name: "Alocasia Wentii",
-        description: "Amet minim mollit non deserunt ullamco est sit aliqua.",
-        price: 50.0,
-        image: "/placeholder.svg",
-        itemCount: 8,
-        category: "Indoor Plants"
-    },
-    {
-        id: "4",
-        name: "Echinodorus",
-        description: "Amet minim mollit non deserunt ullamco est sit aliqua.",
-        price: 50.0,
-        image: "/placeholder.svg",
-        itemCount: 12,
-        category: "Aquatic Plants"
-    },
-]
 
 interface ProductGridProps {
     searchTerm: string
@@ -60,6 +14,9 @@ interface ProductGridProps {
 }
 
 export function AdminPosProductDisplay({ searchTerm, selectedCategory, onAddToOrder }: ProductGridProps) {
+
+    const { products } = useMerchantProductsQuery()
+
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedCategory === "All" || product.category === selectedCategory)
@@ -95,9 +52,9 @@ export function AdminPosProductDisplay({ searchTerm, selectedCategory, onAddToOr
                                     {product.description}
                                 </p>
                                 <div className="flex justify-between items-center">
-                                    <span className="font-semibold">${product.price.toFixed(2)}</span>
+                                    <span className="font-semibold">${Number(product.price).toFixed(2)}</span>
                                     <span className="text-sm text-muted-foreground">
-                                        {product.itemCount} items
+                                        {Number(product.quantity)} items
                                     </span>
                                 </div>
                             </CardContent>

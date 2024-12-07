@@ -1,10 +1,10 @@
-import { ProductItemProps } from "./admin-inventory-product-list";
+import { Product } from "@/declarations/bizpro-backend/bizpro-backend.did";
 import { Button } from "./button";
 import { TableCell } from "./table";
 import Image from "next/image"
 
 export function AdminInventoryProductListItem({ productItem }: {
-    productItem: ProductItemProps
+    productItem: Product
 }) {
 
     const {
@@ -14,7 +14,7 @@ export function AdminInventoryProductListItem({ productItem }: {
         quantity,
         category,
         image,
-        seller
+        businessId
     } = productItem
 
 
@@ -27,16 +27,16 @@ export function AdminInventoryProductListItem({ productItem }: {
             <TableCell>{name}</TableCell>
             <TableCell>{description}</TableCell>
             <TableCell>
-                {price}
+                {Number(price)}
             </TableCell >
             <TableCell>
-                {quantity}
+                {Number(quantity)}
             </TableCell >
             <TableCell>
                 {category}
             </TableCell >
             <TableCell>
-                {seller.toString()}
+                {businessId.toString()}
             </TableCell >
             <TableCell>
                 <Button variant="ghost" size="sm">Edit</Button>

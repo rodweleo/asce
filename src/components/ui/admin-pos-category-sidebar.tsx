@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card, CardContent, CardHeader, CardTitle } from "./card"
+import useMerchantProductsQuery from "@/hooks/use-merchant-products"
 
 interface Category {
     name: string
@@ -10,16 +11,7 @@ interface Category {
     icon?: string
 }
 
-const categories: Category[] = [
-    { name: "All", count: 0 },
-    { name: "Succulents", count: 200 },
-    { name: "Indoor Plants", count: 45 },
-    { name: "Aquatic Plants", count: 120 },
-    { name: "Trees", count: 80 },
-    { name: "Climbers", count: 65 },
-    { name: "Creepers", count: 70 },
-    { name: "Bamboo", count: 30 },
-]
+
 
 interface CategorySidebarProps {
     selectedCategory: string
@@ -27,6 +19,13 @@ interface CategorySidebarProps {
 }
 
 export function AdminPosCategorySidebar({ selectedCategory, onSelectCategory }: CategorySidebarProps) {
+
+    const { products } = useMerchantProductsQuery()
+
+    const categories: Category[] = [
+        { name: "All", count: products.length },
+    ]
+
     return (
         <Card className="w-1/3 h-fit sticky top-20">
             <CardHeader>

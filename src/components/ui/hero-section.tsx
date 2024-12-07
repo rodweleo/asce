@@ -15,7 +15,7 @@ export default function HeroSection() {
 
     return (
         <section className="w-full relative py-12 md:py-4 lg:py-4 xl:py-16 min-h-screen mt-20 grid place-items-center">
-            <Image src="/images/DALL_E-2024-12-03-11.13-removebg-preview.png" width={500} height={500} alt="Streamline your Business operations" className="absolute top-0 left-20 -z-20" />
+            <Image src="/images/DALL_E-2024-12-03-11.13-removebg-preview.png" width={500} height={500} alt="Streamline your Business operations" className="absolute top-0 left-8 opacity-75 -z-20" />
             <div className="container px-4 md:px-6 space-y-10">
                 <div className="flex flex-col items-center space-y-4 text-center">
                     <div className="space-y-4 grid place-items-center">
@@ -35,7 +35,7 @@ export default function HeroSection() {
                         <h1 className="tracking-wide text-5xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-winde">
                             Streamline Your Business Operations
                         </h1>
-                        <p className="w-full max-w-4xl text-neutral-500 sm:text-md md:text-lg lg:text-xl dark:text-neutral-800">
+                        <p className="w-full max-w-4xl text-neutral-600 font-semibold sm:text-md md:text-lg lg:text-xl dark:text-neutral-800">
                             End-to-end business management from automated inventory management to social media management in a single solution. <br /> Meet <span className="text-blue-500 font-bold">asceflow.ai</span>, the right platform to help you realize your business goals.
                         </p>
                     </div>
@@ -51,7 +51,7 @@ export default function HeroSection() {
                     </div>
                 </div>
                 <div className="w-full relative rounded-md">
-                    <Image src="/logos/hero demo dashboard.png" alt="asceflow.ai demo dashboard" width={1920}
+                    <Image src="/images/image.png" alt="asceflow.ai demo dashboard" width={1920}
                         height={1080}
                         className="w-full transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md border" />
                     <BorderBeam />

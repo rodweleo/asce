@@ -5,8 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import SignInWithIcpAuthenticatorBtn from "./sign-in-with-icp-authenticator-btn"
 import SignInWithPlugWalletBtn from "./sign-in-with-plug-wallet-btn"
 import SignInWithNfidBtn from "./sign-in-with-nfid-btn"
-import SignInWithBitcoinBtn from "./sign-in-with-bitcoin-btn"
-
 
 export default function LoginForm() {
 
@@ -21,7 +19,6 @@ export default function LoginForm() {
                 <div className="flex flex-col items-center gap-4">
                     <SignInWithIcpAuthenticatorBtn />
                     <SignInWithPlugWalletBtn />
-                    <SignInWithBitcoinBtn />
                     <SignInWithNfidBtn />
                 </div>
             </CardContent>

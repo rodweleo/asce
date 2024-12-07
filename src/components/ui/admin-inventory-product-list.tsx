@@ -1,3 +1,4 @@
+import { Product } from "@/declarations/bizpro-backend/bizpro-backend.did";
 import { AdminInventoryProductListItem } from "./admin-inventory-product-list-item";
 import { Table, TableHeader, TableRow, TableHead, TableBody } from "./table";
 import type { Principal } from "@dfinity/principal";
@@ -10,10 +11,10 @@ export interface ProductItemProps {
     quantity: number
     category: string
     image: string
-    seller: Principal
+    businessId: Principal
 }
 export function AdminInventoryProductList({ products }: {
-    products: ProductItemProps[]
+    products: Product[]
 }) {
     return (
         <Table>

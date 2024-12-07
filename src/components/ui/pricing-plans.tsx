@@ -8,12 +8,12 @@ export default function PricingPlans() {
 
     const plans = [
         { name: "Free", description: "A free plan for individuals and businesses.", price: 0, features: ["14-day trial", "Basic features", "Limited support"], icon: <IconBulb />, recommended: false },
-        { name: "Starter", description: "A start plan for individuals, startups and businesses", price: 7.65, features: ["Full feature access", "Priority support", "Up to 1000 products"], icon: <IconTrophy />, recommended: true },
-        { name: "Premium", description: "A premium plan for growing businesses and organizations", price: 20, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"], icon: <IconDiamond />, recommended: false },
+        { name: "Starter", description: "A start plan for individuals, startups and businesses", price: 3.25, features: ["Full feature access", "Priority support", "Up to 1000 products"], icon: <IconTrophy />, recommended: true },
+        { name: "Premium", description: "A premium plan for growing businesses and organizations", price: 7.50, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"], icon: <IconDiamond />, recommended: false },
         // { name: "Enterprise", description: "An enterprise plan with advanced features for large organizations", price: 7.75, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"] },
         // { name: "Ultimate", description: "The ultimate plan with all features for industry leaders", price: 10, features: ["Advanced analytics", "Dedicated account manager", "Unlimited products"] },
     ]
-    
+
     return (
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 dark:bg-gray-800">
             <div className="px-4 md:px-6 space-y-10 grid place-items-center w-full">

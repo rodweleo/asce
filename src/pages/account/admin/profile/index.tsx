@@ -1,21 +1,24 @@
 "use client"
 
-// import { Hero } from '@/components/ui/profile/hero'
 import AdminLayout from '@/components/ui/admin-layout'
 import { ProfileForm } from '@/components/ui/profile/profile-form'
+import useActivePageName from '@/hooks/use-active-page-name'
+import { useEffect } from 'react';
 
 export default function AdminProfilePage() {
+  const { setActivePageName } = useActivePageName();
+
+
+
+  useEffect(() => {
+    document.title = "Profile | asceflow.ai"
+
+    setActivePageName("Profile")
+  }, [])
+
   return (
-    <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
-      {/* <Hero /> */}
-      <div className="flex items-center w-full h-full">
-        <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
-          <div className=" rounded-lg p-6 md:p-8 h-full">
-            <h2 className="text-2xl font-semibold mb-1 text-blue-500 text-center -mt-10"></h2>
-            <ProfileForm />
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen w-full grid place-items-center">
+      <ProfileForm />
     </div>
   )
 }

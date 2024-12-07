@@ -1,11 +1,12 @@
 "use client"
 
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./sidebar"
-import { Box, FileText, Home, MessageCircle, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
+import { Box, FileText, MessageCircle, Truck, Users, ChevronDown, LayoutDashboard, ImageUp } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
 import { useAuth } from "./use-auth-client"
+import { IconDeviceDesktopDollar, IconLayoutCollage, IconBuildingWarehouse } from "@tabler/icons-react"
 
 export default function AdminSidebar() {
 
@@ -14,9 +15,9 @@ export default function AdminSidebar() {
     const { whoAmI } = useAuth()
 
     const sidebarItems = [
-        { icon: Home, label: "Overview", value: "/account/admin" },
-        { icon: Box, label: "Point of Sale", value: "/account/admin/pos" },
-        { icon: Box, label: "Inventory", value: "/account/admin/inventory" },
+        { icon: IconLayoutCollage, label: "Dashboard", value: "/account/admin" },
+        { icon: IconDeviceDesktopDollar, label: "Point of Sale", value: "/account/admin/pos" },
+        { icon: IconBuildingWarehouse, label: "Inventory", value: "/account/admin/inventory" },
         { icon: Box, label: "Orders", value: "/account/admin/orders" },
         { icon: Truck, label: "Suppliers", value: "/account/admin/suppliers" },
         { icon: FileText, label: "Invoices", value: "/account/admin/invoices" },

@@ -6,23 +6,23 @@ export function TestimonialsSection() {
         {
             quote:
                 "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-            name: "Sarah Chen",
+            name: "Kevin Omondi",
             designation: "CEO at Crafty Glity Furnitures",
             src: "/logos/Crafty Glity Logo.jpeg",
         },
         {
             quote:
                 "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
-            name: "Michael Rodriguez",
+            name: "Michael Kimani",
             designation: "Manager at Jojawa Drops",
-            src: "/logos/Crafty Glity Logo.jpeg",
+            src: "/logos/Jojawa Drops.jpg",
         },
         {
             quote:
                 "This solution has significantly improved our team's productivity. The intuitive interface makes complex tasks simple.",
-            name: "Emily Watson",
+            name: "Joseph Waweru",
             designation: "Operations Manager at Premium Car Wash",
-            src: "/logos/Crafty Glity Logo.jpeg",
+            src: "/logos/Prenium Car Wash.jpg",
         },
 
     ];

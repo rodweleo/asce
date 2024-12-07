@@ -9,7 +9,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import {useToast} from '@/components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 import { ImageUpload } from './image-upload'
 import { updateProfile } from './actions'
 
@@ -101,10 +101,9 @@ export function ProfileForm() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-start min-h-screen w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white shadow-md rounded-lg p-8 w-full max-w-3xl">
-          <h2 className="text-2xl font-semibold mb-1 text-blue-500 underline"></h2>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white shadow-md rounded-lg p-8 w-full ">
           <FormField
             control={form.control}
             name="name"
@@ -210,7 +209,7 @@ export function ProfileForm() {
             )}
           />
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-orange-500 underline">Address</h3>
+            <h3 className="text-lg font-bold">Address</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField
                 control={form.control}
@@ -280,7 +279,7 @@ export function ProfileForm() {
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-orange-500 underline">Social Media</h3>
+            <h3 className="text-lg font-bold">Social Media</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField
                 control={form.control}

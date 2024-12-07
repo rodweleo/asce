@@ -13,7 +13,7 @@ const useMerchantSalesQuery = () => {
         if (principal) {
             return fetchMerchantSales(principal);
         }
-    })
+    }, queryOptions)
 
     const sales = data ? data : [];
 

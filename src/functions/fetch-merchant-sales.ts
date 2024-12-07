@@ -1,8 +1,8 @@
 import { Principal } from '@dfinity/principal';
 import AsceflowBackendActor from "@/utils/AsceflowBackendActor";
 
-const fetchMerchantSales = async (merchantPrincipal: Principal) => {
-    const response = await AsceflowBackendActor.getSalesByMerchant(merchantPrincipal);
+const fetchMerchantSales = async (businessPrincipal: Principal) => {
+    const response = await AsceflowBackendActor.getSalesByBusiness(businessPrincipal);
     return response;
 }
 

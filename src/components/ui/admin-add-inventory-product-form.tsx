@@ -31,6 +31,7 @@ import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
 import { useAuth } from "./use-auth-client";
 import { convertToBase64 } from "@/utils";
 import { Loader2 } from "lucide-react"
+import { Product } from "@/declarations/bizpro-backend/bizpro-backend.did";
 
 
 
@@ -85,7 +86,17 @@ export function AdminAddInventoryProductForm() {
         try {
             setIsSubmitting(true)
 
-            const res = await AsceflowBackendActor.addProduct(uuidv4(), values.name, values.description, BigInt(values.price), BigInt(values.quantity), values.category, principal!, imagePreview!);
+            const newProduct: Product = {
+                id: uuidv4(),
+                businessId: principal!,
+                name: values.name,
+                description: values.description,
+                quantity: BigInt(values.quantity),
+                category: values.category,
+                image: imagePreview!,
+                price: BigInt(values.price)
+            }
+            const res = await AsceflowBackendActor.addOrUpdateProduct(newProduct);
 
             toast.success(res)
         } catch (e) {

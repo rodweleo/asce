@@ -11,7 +11,7 @@ export function Chatbot() {
     const { messages, isLoading, sendMessage } = useLlmChat()
     const [input, setInput] = useState('')
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (input.trim()) {
             sendMessage(input)

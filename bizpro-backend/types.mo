@@ -17,7 +17,7 @@ module Types {
         quantity : Nat;
         category : Text;
         image : Text;
-        seller : Principal;
+        businessId : Principal;
     };
 
     public type GetProductByIdResult = {
@@ -59,13 +59,6 @@ module Types {
         key : Text;
     };
 
-    public type User = {
-        id : Text;
-        name : Text;
-        email : Text;
-        password : Text;
-    };
-
     public type Supplier = {
         id : Text;
         name : Text;
@@ -77,9 +70,9 @@ module Types {
     };
 
     public type Merchant = {
-        id: Principal;
+        id : Principal;
         name : Text;
-        businessName: Text;
+        businessName : Text;
         email_notifications : Bool;
         email_address : Text;
         phone_notifications : Bool;
@@ -87,13 +80,9 @@ module Types {
     };
 
     public type Business = {
-        id : Text;
-        ownerId : Text;
         name : Text;
-        logo : Text;
-        contact : Text;
-        location : Text;
-        socialLinks : [Text];
+        industry : Text;
+        emailAddress : Text;
     };
 
     public type Payment = {
@@ -109,8 +98,8 @@ module Types {
 
     public type Sale = {
         id : Text;
-        merchant : Principal;
-        customer : Text;
+        businessId : Principal;
+        customerId : Principal;
         products : [Text];
         totalAmount : Nat;
         paymentMethod : Text;

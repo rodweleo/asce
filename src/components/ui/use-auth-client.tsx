@@ -142,17 +142,20 @@ export const useAuthClient = (options = defaultOptions) => {
         if (typeof window !== "undefined") {
 
             try {
-                const publicKey = await window.ic.plug.requestConnect();
 
                 const agent: HttpAgent = await window.ic.plug.agent;
-                const isWalletLocked: boolean = await window.ic.plug.isWalletLocked;
+                // const isWalletLocked: boolean = await window.ic.plug.isWalletLocked;
                 const principalId: Principal = await window.ic.plug.principalId;
                 const accountId = await window.ic.plug.accountId;
 
-                console.log(agent)
-                console.log(isWalletLocked)
-                console.log(principalId)
+                toast.success(`Welcome back ${principalId.toText()}`)
+
+                setAgent(agent)
+                setPrincipal(principalId)
                 setAccountId(accountId)
+
+                router.push("/account/admin")
+
 
             } catch (e) {
                 toast.error(e.message);
@@ -179,6 +182,10 @@ export const useAuthClient = (options = defaultOptions) => {
                 onSuccess: () => {
                     toast.success(`Welcome back ${authClient.getIdentity().getPrincipal().toText()}`)
                     updateClient(authClient);
+
+
+                    router.push("/account/admin")
+
                     resolve();
                 },
                 onError: reject,

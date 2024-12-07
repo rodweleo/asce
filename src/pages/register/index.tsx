@@ -6,13 +6,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import Link from "next/link"
 import RootLayout from "../../components/ui/root-layout"
-import SignUpForm from "@/components/ui/sign-up-form"
+import useLoginModal from "@/hooks/use-login-modal"
+import toast from "react-hot-toast"
+import AsceflowBackendActor from "@/utils/AsceflowBackendActor"
+import { Business } from "@/declarations/bizpro-backend/bizpro-backend.did"
 
 export default function SignUpPage() {
     const [isLoading, setIsLoading] = useState(false)
-
+    const { setOpen } = useLoginModal()
 
     useEffect(() => {
         document.title = "Register Business | asceflow.ai"
@@ -22,10 +24,29 @@ export default function SignUpPage() {
         event.preventDefault()
         setIsLoading(true)
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        try {
 
-        setIsLoading(false)
+            const formData = new FormData(event.target);
+            const businessName = formData.get("business_name") as string;
+            const businessEmail = formData.get("business_email") as string;
+            const businessIndustry = formData.get("business_industry") as string;
+
+            const newBusiness: Business = {
+                name: businessName || "",
+                emailAddress: businessEmail || "",
+                industry: businessIndustry || "",
+            }
+
+            const response = await AsceflowBackendActor.addorUpdateBusiness(newBusiness)
+
+            toast.success(response)
+        } catch (e) {
+            toast.error(e.message())
+        } finally {
+            setIsLoading(false)
+        }
+
+
 
     }
 
@@ -40,15 +61,15 @@ export default function SignUpPage() {
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="business-name">Business Name</Label>
-                            <Input id="business-name" placeholder="Enter your business name" required />
+                            <Input id="business-name" name="business_name" placeholder="Enter your business name" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="business-email">Business Email</Label>
-                            <Input id="business-email" type="email" placeholder="Enter your business email" required />
+                            <Input id="business-email" name="business_email" type="email" placeholder="Enter your business email" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="industry">Business Industry</Label>
-                            <Select required>
+                            <Select required name="business_industry">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select your industry" />
                                 </SelectTrigger>
@@ -69,9 +90,9 @@ export default function SignUpPage() {
                         </Button>
                         <p className="text-sm text-center text-gray-500 dark:text-gray-400">
                             Already have an account?{" "}
-                            <Button className="text-white hover:underline">
+                            <button className="text-blue-500 hover:underline" type="button" onClick={() => setOpen(true)}>
                                 Log in
-                            </Button>
+                            </button>
                         </p>
                     </CardFooter>
                 </form>

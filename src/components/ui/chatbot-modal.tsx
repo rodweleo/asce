@@ -38,6 +38,6 @@ export function ChatbotModal() {
 export const ChatbotModalTrigger = () => {
     const { setOpen } = useChatbotModal()
     return (
-        <button onClick={() => setOpen(true)} title="Asceflow Business Assitant" className="fixed right-10 bottom-2 z-40 animate-pulse"><IconBrandHipchat size={50} /></button>
+        <button onClick={() => setOpen(true)} title="Asceflow Business Assitant" className="fixed right-10 bottom-2 z-40 animate-pulse"><IconBrandHipchat size={40} /></button>
     )
 }

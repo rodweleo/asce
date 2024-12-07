@@ -1,10 +1,10 @@
 "use client"
 
 import AdminLayout from "@/components/ui/admin-layout"
-import { AdminPointOfSaleHeader } from "@/components/ui/admin-point-of-sale-header"
 import { AdminPosCategorySidebar } from "@/components/ui/admin-pos-category-sidebar"
 import { AdminPosOrderSidebar } from "@/components/ui/admin-pos-order-sidebar"
 import { AdminPosProductDisplay } from "@/components/ui/admin-pos-product-display"
+import { Product } from "@/declarations/bizpro-backend/bizpro-backend.did"
 import useActivePageName from "@/hooks/use-active-page-name"
 
 import { useState, useEffect } from "react"
@@ -13,54 +13,25 @@ import { useState, useEffect } from "react"
 interface OrderItem {
     id: string
     name: string
-    price: number
-    quantity: number
+    price: bigint
+    quantity: bigint
 }
 
-interface Product {
-    id: string
-    name: string
-    price: number
-    description: string
-    image: string
-    itemCount: number
-    category: string
-}
 
 export default function AdminPointOfSale() {
     const { setActivePageName } = useActivePageName()
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [orderItems, setOrderItems] = useState<OrderItem[]>([])
-    const [isOrderSidebarVisible, setIsOrderSidebarVisible] = useState(true)
-    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
 
         document.title = "Point of Sale | asceflow.ai"
         setActivePageName("Point of Sale")
 
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768) // 768px is typically used for tablet breakpoint
-        }
-
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-
-        return () => window.removeEventListener('resize', checkMobile)
+    
     }, [])
 
-    useEffect(() => {
-        if (isMobile) {
-            setIsOrderSidebarVisible(false)
-        } else {
-            setIsOrderSidebarVisible(true)
-        }
-    }, [isMobile])
-
-    const handleSearch = (term: string) => {
-        setSearchTerm(term)
-    }
 
     const handleSelectCategory = (category: string) => {
         setSelectedCategory(category)
@@ -72,34 +43,28 @@ export default function AdminPointOfSale() {
             if (existingItem) {
                 return prevItems.map((item) =>
                     item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
+                        ? { ...item, quantity: BigInt(Number(item.quantity) + 1) }
                         : item
                 )
             } else {
                 return [...prevItems, { id: product.id, name: product.name, price: product.price, quantity: 1 }]
             }
         })
-        if (isMobile) {
-            setIsOrderSidebarVisible(true)
-        }
+      
     }
 
     const handleUpdateQuantity = (id: string, change: number) => {
         setOrderItems((prevItems) =>
             prevItems.map((item) =>
                 item.id === id
-                    ? { ...item, quantity: Math.max(0, item.quantity + change) }
+                    ? { ...item, quantity: BigInt(Math.max(0, Number(item.quantity) + change)) }
                     : item
-            ).filter((item) => item.quantity > 0)
+            ).filter((item) => Number(item.quantity) > 0)
         )
     }
 
     const handleRemoveItem = (id: string) => {
         setOrderItems((prevItems) => prevItems.filter((item) => item.id !== id))
-    }
-
-    const toggleOrderSidebar = () => {
-        setIsOrderSidebarVisible(!isOrderSidebarVisible)
     }
 
 
@@ -118,7 +83,7 @@ export default function AdminPointOfSale() {
                 items={orderItems}
                 onUpdateQuantity={handleUpdateQuantity}
                 onRemoveItem={handleRemoveItem}
-                onClose={isMobile ? toggleOrderSidebar : undefined}
+                
             />
         </div>
     )

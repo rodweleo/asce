@@ -1,3 +1,4 @@
+import AsceflowBackendActor from '@/utils/AsceflowBackendActor'
 import { useState, useEffect } from 'react'
 
 type Message = {
@@ -34,11 +35,8 @@ export function useLlmChat() {
     addMessage(content, 'user')
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const response = await AsceflowBackendActor.getAiResponse(content);
 
-    // Dummy response
-    const response = "This is a dummy response from the LLM."
     addMessage(response, 'llm')
     setIsLoading(false)
   }

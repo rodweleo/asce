@@ -1,6 +1,5 @@
 import { SidebarProvider } from "../components/ui/sidebar";
 import "@/styles/globals.css";
-import { Roboto } from 'next/font/google'
 import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -25,10 +24,6 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const roboto = Roboto({
-  weight: '400',
-  subsets: ['latin'],
-})
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
@@ -43,7 +38,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   })
 
   return getLayout(
-    <main className={roboto.className}>
+    <main className="">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <IdentityKitProvider

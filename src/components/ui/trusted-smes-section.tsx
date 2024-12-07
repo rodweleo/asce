@@ -13,12 +13,11 @@ export default function TrustedSmesSection() {
         },
         {
             name: "Jojawa Drops",
-            img: "/logos/Crafty Glity Logo.jpeg",
+            img: "/logos/Jojawa Drops.jpg",
         },
         {
-            name: "Premium Car Wash",
-
-            img: "/logos/Crafty Glity Logo.jpeg",
+            name: "Prenium Car Wash",
+            img: "/logos/Prenium Car Wash.jpg",
         },
 
 
@@ -34,7 +33,7 @@ export default function TrustedSmesSection() {
             </div>
 
             <div className="relative flex w-full flex-row items-center justify-center overflow-hidden">
-                <Marquee pauseOnHover repeat={5} className="[--duration:20s] space-x-8">
+                <Marquee pauseOnHover repeat={5} className="[--duration:20s] space-x-20">
                     {businesses.map((business) => (
                         <BusinessPartnershipCard key={business.name} name={business.name} img={business.img} />
                     ))}
@@ -57,7 +56,7 @@ const BusinessPartnershipCard = ({
 }) => {
     return (
         <div className="flex flex-row items-center gap-2 select-none">
-            <Image className="rounded-full" width={50} height={50} alt={name} src={img} />
+            <Image src={img} alt={name} width={75} height={25} className="rounded-full" />
             <span className="text-lg sm:text-2xl font-bold text-neutral-400 tracking-wider">{name}</span>
         </div>
     );

@@ -1,144 +1,77 @@
-import CertifiedData "mo:base/CertifiedData";
-import Char "mo:base/Char";
-import Debug "mo:base/Debug";
-import Error "mo:base/Error";
-import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
-import Trie "mo:base/Trie";
 import Text "mo:base/Text";
-import Option "mo:base/Option";
-import Prim "mo:prim";
 import Principal "mo:base/Principal";
-import Result "mo:base/Result";
 import Cycles "mo:base/ExperimentalCycles";
 import Types "types";
-import HM "mo:base/HashMap";
 import Array "mo:base/Array";
+import Blob "mo:base/Blob";
 
 actor class () {
 
-  stable var products : [Types.Product] = [];
-  stable var sales : [Types.Sale] = [];
   stable var suppliers : [Types.Supplier] = [];
 
-  // private stable var merchantStore : Trie.Trie<Text, Types.Merchant> = Trie.empty();
+  private stable var business_entries : [(Principal, Types.Business)] = [];
+  private var businesses = HashMap.HashMap<Principal, Types.Business>(
+    10,
+    Principal.equal,
+    Principal.hash,
+  );
 
-  //  public query (context) func getMerchant() : async Types.Response<Types.Merchant> {
-  //     let caller : Principal = context.caller;
+  private stable var product_entries : [(Text, Types.Product)] = [];
+  private var products = HashMap.HashMap<Text, Types.Product>(10, Text.equal, Text.hash);
 
-  //     switch (Trie.get(merchantStore, merchantKey(Principal.toText(caller)), Text.equal)) {
-  //       case (?merchant) {
-  //         {
-  //           status = 200;
-  //           status_text = "OK";
-  //           data = ?merchant;
-  //           error_text = null;
-  //         };
-  //       };
-  //       case null {
-  //         {
-  //           status = 404;
-  //           status_text = "Not Found";
-  //           data = null;
-  //           error_text = ?("Merchant with principal ID: " # Principal.toText(caller) # " not found.");
-  //         };
-  //       };
-  //     };
-  //   };
+  private stable var sales_entries : [(Text, Types.Sale)] = [];
+  private var sales = HashMap.HashMap<Text, Types.Sale>(10, Text.equal, Text.hash);
 
-  public func addProduct(id : Text, name : Text, description : Text, price : Nat, quantity : Nat, category : Text, seller : Principal, image : Text) : async Text {
-    let product : Types.Product = {
-      id = id;
-      name = name;
-      description = description;
-      price = price;
-      quantity = quantity;
-      category = category;
-      image = image;
-      seller = seller;
-    };
+  //adding or updating a business
+  public shared (msg) func addorUpdateBusiness(business : Types.Business) : async Text {
+    let caller = msg.caller;
+    businesses.put(caller, business);
 
-    products := Array.append(products, [product]);
+    "Business successfully registered";
+  };
+
+  //retrieving the details of a given business
+  public query func getBusiness(id : Principal) : async ?Types.Business {
+    businesses.get(id);
+  };
+
+  public shared (msg) func addOrUpdateProduct(product : Types.Product) : async Text {
+
+    products.put(product.id, product);
 
     "Product registered to inventory successfully.";
   };
 
-  public func getProductById(productId : Text) : async Types.GetProductByIdResult {
-    // Check if the product ID is valid
-    if (Text.size(productId) < 0) {
-      return #err("Invalid product ID.");
-    };
-
-    //find the product using the product id
-    let product = Array.find<Types.Product>(products, func(item : Types.Product) { item.id == productId });
-
-    switch (product) {
-      case (?product) {
-        return #ok(product);
-      };
-      case null {
-        return #err("No matching product found.");
-      };
-    };
-
+  public query func getProductById(id : Text) : async ?Types.Product {
+    products.get(id);
   };
 
-  public query func getProductsBySeller(seller : Principal) : async [Types.Product] {
-    let sellerProducts = Array.filter<Types.Product>(
-      products,
-      func(product) {
-        product.seller == seller;
-      },
-    );
-    sellerProducts;
+  public query func getBusinessProducts(businessId : Principal) : async [Types.Product] {
+    Iter.toArray(Iter.filter(products.vals(), func(p : Types.Product) : Bool { p.businessId == businessId }));
   };
 
-  public func addSale(id : Text, merchant : Principal, customer : Text, products : [Text], totalAmount : Nat, paymentMethod : Text, timestamp : Text) : async Text {
-    let sale : Types.Sale = {
-      id = id;
-      merchant = merchant;
-      customer = customer;
-      products = products;
-      totalAmount = totalAmount;
-      paymentMethod = paymentMethod;
-      timestamp = timestamp;
-    };
+  public shared (msg) func addOrUpdateSale(sale : Types.Sale) : async Text {
 
-    sales := Array.append(sales, [sale]);
+    sales.put(sale.id, sale);
 
-    "Sale order registered successfully.";
+    "Sale has been registered successfully!.";
   };
 
-  public func getSaleById(saleId : Text) : async Types.GetSaleByIdResult {
+  public func getSaleById(saleId : Text) : async ?Types.Sale {
     // Check if the product ID is valid
     if (Text.size(saleId) < 0) {
-      return #err("Invalid saleId ID.");
+      return null;
     };
 
-    //find the sale using the sale id
-    let sale = Array.find<Types.Sale>(sales, func(item : Types.Sale) { item.id == saleId });
-
-    switch (sale) {
-      case (?sale) {
-        return #ok(sale);
-      };
-      case null {
-        return #err("No matching product found.");
-      };
-    };
+    sales.get(saleId);
 
   };
 
-  public query func getSalesByMerchant(merchant : Principal) : async [Types.Sale] {
-    let merchantSales = Array.filter<Types.Sale>(
-      sales,
-      func(sale) {
-        sale.merchant == merchant;
-      },
-    );
-    merchantSales;
+  public query func getSalesByBusiness(businessId : Principal) : async [Types.Sale] {
+    Iter.toArray(Iter.filter(sales.vals(), func(s : Types.Sale) : Bool { s.businessId == businessId }));
   };
 
   public shared (msg) func addSupplier(supplier : Types.Supplier) : async Text {
@@ -218,93 +151,132 @@ actor class () {
 
   };
 
-  // Read profile
-  // public shared query (msg) func readBusinessProfile() : async Result.Result<Types.Profile, Types.Error> {
-  //   // Get caller principal
-  //   let callerId = msg.caller;
-
-  //   // Reject AnonymousIdentity
-  //   if (Principal.toText(callerId) == "2vxsx-fae") {
-  //     return #err(#NotAuthorized);
-  //   };
-
-  //   let result = Trie.find(
-  //     profiles, //Target Trie
-  //     key(callerId), // Key
-  //     Principal.equal // Equality Checker
-  //   );
-  //   return Result.fromOption(result, #NotFound);
-  // };
-
-  // public shared (msg) func createBusinessProfile(profile : Types.ProfileUpdate) : async Result.Result<(), Types.Error> {
-  //   // Get caller principal
-  //   let callerId = msg.caller;
-
-  //   // Reject AnonymousIdentity
-  //   if (Principal.toText(callerId) == "2vxsx-fae") {
-  //     return #err(#NotAuthorized);
-  //   };
-
-  //   // Associate user profile with their principal
-  //   let userProfile : Types.Profile = {
-  //     bio = profile.bio;
-  //     image = profile.image;
-  //     id = callerId;
-  //   };
-
-  //   let (newProfiles, existing) = Trie.put(
-  //     profiles, // Target trie
-  //     key(callerId), // Key
-  //     Principal.equal, // Equality checker
-  //     userProfile,
-  //   );
-
-  //   switch (profile.image) {
-  //     case null {};
-  //     case (?v) {
-  //       var fileName = "/images/";
-  //       fileName := Text.concat(fileName, Principal.toText(callerId));
-  //       fileName := Text.concat(fileName, "/");
-  //       fileName := Text.concat(fileName, v.fileName);
-  //       let sha256 : ?Blob = null;
-
-  //       // let storeResult = await AssetCanister.store({
-  //       //     key = fileName;
-  //       //     content_type = v.filetype;
-  //       //     content_encoding = "identity";
-  //       //     content = v.data;
-  //       //     sha256 = sha256;
-  //       // });
-  //     };
-  //   };
-
-  //   // If there is an original value, do not update
-  //   switch (existing) {
-  //     // If there are no matches, update profiles
-  //     case null {
-  //       profiles := newProfiles;
-  //       #ok(());
-  //     };
-  //     // Matches pattern of type - opt Profile
-  //     case (?v) {
-  //       #err(#AlreadyExists);
-  //     };
-  //   };
-  // };
-
-  private func key(x : Principal) : Trie.Key<Principal> {
-    return { key = x; hash = Principal.hash(x) };
+  public query func transform(raw : Types.TransformArgs) : async Types.CanisterHttpResponsePayload {
+    let transformed : Types.CanisterHttpResponsePayload = {
+      status = raw.response.status;
+      body = raw.response.body;
+      headers = [
+        {
+          name = "Content-Security-Policy";
+          value = "default-src 'self'";
+        },
+        { name = "Referrer-Policy"; value = "strict-origin" },
+        { name = "Permissions-Policy"; value = "geolocation=(self)" },
+        {
+          name = "Strict-Transport-Security";
+          value = "max-age=63072000";
+        },
+        { name = "X-Frame-Options"; value = "DENY" },
+        { name = "X-Content-Type-Options"; value = "nosniff" },
+      ];
+    };
+    transformed;
   };
 
-  /**
-    * Generate a Trie key based on a merchant's principal ID
-    */
-  private func merchantKey(x : Text) : Trie.Key<Text> {
-    return { hash = Text.hash(x); key = x };
+  public func getAiResponse(prompt : Text) : async Text {
+
+    let ic : Types.IC = actor ("aaaaa-aa");
+
+    let host : Text = "asceflow-worker.securemart.workers.dev";
+    let url = "https://" # host # "/api/generateResponse";
+
+    let request_headers = [
+      { name = "Host"; value = host # ":443" },
+      { name = "User-Agent"; value = "google_gemini_api_canister" },
+      { name = "Content-Type"; value = "application/json" },
+    ];
+
+    // Create JSON payload
+    let request_body_json : Text = "{\"prompt\": \"" # prompt # "\"}";
+    let request_body_as_Blob : Blob = Text.encodeUtf8(request_body_json);
+    let request_body_as_nat8 : [Nat8] = Blob.toArray(request_body_as_Blob);
+
+    let transform_context : Types.TransformContext = {
+      function = transform;
+      context = Blob.fromArray([]);
+    };
+
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      max_response_bytes = null; //optional for request
+      headers = request_headers;
+      body = ?request_body_as_nat8;
+      method = #post;
+      transform = ?transform_context;
+    };
+
+    Cycles.add<system>(20_949_972_000);
+
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Directly convert the response body to Text
+    let decoded_text : Text = switch (Text.decodeUtf8(Blob.fromArray(http_response.body))) {
+      case (null) { "Error: Unable to decode response" };
+      case (?text) { text };
+    };
+
+    decoded_text;
   };
 
-  private func keyText(x : Text) : Trie.Key<Text> {
-    return { key = x; hash = Text.hash(x) };
+  public func sendMailNotification(
+    recipient_name : Text,
+    recipient_email : Text,
+    recipient_principal : Text,
+    token_amount : Nat,
+    sender_principal : Text,
+    sender_name : Text,
+    date_of_transaction : Text,
+  ) : async Text {
+
+    let ic : Types.IC = actor ("aaaaa-aa");
+
+    let host : Text = "asceflow-worker.securemart.workers.dev";
+    let url = "https://" # host # "/api/sendMail";
+
+    let request_headers = [
+      { name = "Host"; value = host # ":443" },
+      { name = "User-Agent"; value = "send_mail_notification_canister" },
+      { name = "Content-Type"; value = "application/json" },
+    ];
+
+    // Create JSON payload
+    let request_body_json : Text = "{\n" #
+    "  \"recipient_name\": \"" # recipient_name # "\",\n" #
+    "  \"recipient_email\": \"" # recipient_email # "\",\n" #
+    "  \"recipient_principal\": \"" # recipient_principal # "\",\n" #
+    "  \"token_amount\": " # Nat.toText(token_amount) # ",\n" #
+    "  \"sender_principal\": \"" # sender_principal # "\",\n" #
+    "  \"sender_name\": \"" # sender_name # "\",\n" #
+    "  \"date_of_transaction\": \"" # date_of_transaction # "\"\n" #
+    "}";
+    let request_body_as_Blob : Blob = Text.encodeUtf8(request_body_json);
+    let request_body_as_nat8 : [Nat8] = Blob.toArray(request_body_as_Blob);
+
+    let transform_context : Types.TransformContext = {
+      function = transform;
+      context = Blob.fromArray([]);
+    };
+
+    let http_request : Types.HttpRequestArgs = {
+      url = url;
+      max_response_bytes = null; //optional for request
+      headers = request_headers;
+      body = ?request_body_as_nat8;
+      method = #post;
+      transform = ?transform_context;
+    };
+
+    Cycles.add<system>(20_949_972_000);
+
+    let http_response : Types.HttpResponsePayload = await ic.http_request(http_request);
+
+    // Directly convert the response body to Text
+    let decoded_text : Text = switch (Text.decodeUtf8(Blob.fromArray(http_response.body))) {
+      case (null) { "Error: Unable to decode response" };
+      case (?text) { text };
+    };
+
+    decoded_text;
   };
 
   public query func remaining_cycles() : async Nat {
@@ -319,6 +291,40 @@ actor class () {
 
   public query (msg) func whoami() : async Text {
     Principal.toText(msg.caller);
+  };
+
+  system func preupgrade() {
+    business_entries := Iter.toArray(businesses.entries());
+
+    product_entries := Iter.toArray(products.entries());
+
+    sales_entries := Iter.toArray(sales.entries());
+  };
+
+  system func postupgrade() {
+    businesses := HashMap.fromIter<Principal, Types.Business>(
+      business_entries.vals(),
+      10,
+      Principal.equal,
+      Principal.hash,
+    );
+    business_entries := [];
+
+    products := HashMap.fromIter<Text, Types.Product>(
+      product_entries.vals(),
+      10,
+      Text.equal,
+      Text.hash,
+    );
+    product_entries := [];
+
+    sales := HashMap.fromIter<Text, Types.Sale>(
+      sales_entries.vals(),
+      10,
+      Text.equal,
+      Text.hash,
+    );
+    sales_entries := [];
   };
 
 };
