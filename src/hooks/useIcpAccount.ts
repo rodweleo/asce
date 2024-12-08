@@ -13,7 +13,7 @@ export const useIcpAccount = (accountId?: string) => {
     useEffect(() => {
         if (accountId) {
             getIcpAccountBalance(accountId).then((balance) => {
-                setBalance(balance)
+                setBalance((balance / 100000000))
             })
 
             getIcpAccountTransactions(accountId).then((transactions) => {
@@ -22,6 +22,7 @@ export const useIcpAccount = (accountId?: string) => {
 
         }
     }, [accountId])
+
 
     const latestTransaction = useMemo(() => {
         if (transactions.length > 0) {
@@ -37,6 +38,8 @@ export const useIcpAccount = (accountId?: string) => {
         }
     }, [transactions])
 
+
+    console.log(transactions)
     return {
         balance, transactions, latestTransaction
     }

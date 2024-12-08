@@ -4,12 +4,12 @@ import {
     AvatarImage,
 } from "@/components/ui/avatar"
 import {
-    CreditCard,
     Mail,
     MessageSquare,
     Settings,
     User,
     UserPlus,
+    Wallet
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -48,16 +48,20 @@ export default function AdminProfileBtn() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        
+
                         <Link href="/account/admin/profile" className="flex items-center gap-2">
-                            <User/>
+                            <User />
                             <span>Profile</span>
                         </Link>
 
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        <CreditCard />
-                        <span>Billing</span>
+
+                        <Link href="/account/admin/wallet" className="flex items-center gap-2">
+                            <Wallet />
+                            <span>Wallet</span>
+                        </Link>
+
 
                     </DropdownMenuItem>
                     <DropdownMenuItem>
@@ -66,30 +70,6 @@ export default function AdminProfileBtn() {
                             <span>Settings</span>
                         </Link>
                     </DropdownMenuItem>
-
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <UserPlus />
-                            <span>Invite users</span>
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem>
-                                    <Mail />
-                                    <span>Email</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <MessageSquare />
-                                    <span>Message</span>
-                                </DropdownMenuItem>
-
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
 
                 </DropdownMenuGroup>
 
