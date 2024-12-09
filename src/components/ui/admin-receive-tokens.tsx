@@ -1,18 +1,21 @@
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog"
-import { QrCode, Copy, List, ArrowDownLeft } from 'lucide-react'
+import { QrCode, Copy, ArrowDownLeft } from 'lucide-react'
+import { useAuth } from "./use-auth-client"
+import toast from "react-hot-toast"
 
 export function AdminReceiveTokens() {
-    const walletAddress = "0x1234567890abcdef1234567890abcdef12345678"
+
+    const { principal } = useAuth()
 
     const handleCopyAddress = () => {
-        navigator.clipboard.writeText(walletAddress)
-        // Implement a toast notification here
+        navigator.clipboard.writeText(principal!.toText()).then(() => {
+            toast.success("Wallet address copied")
+        }).catch(() => {
+            toast.error("Error coping wallet principal")
+        })
     }
 
-    const handleViewTransactions = () => {
-        // Implement view transactions logic here
-    }
 
     return (
         <Dialog>
@@ -29,15 +32,13 @@ export function AdminReceiveTokens() {
                     <div className="w-48 h-48 bg-gray-200 flex items-center justify-center">
                         <QrCode size={160} />
                     </div>
-                    <p className="text-sm text-center break-all">{walletAddress}</p>
+                    <p className="text-sm text-center break-all select-none">{principal?.toText()}</p>
                 </div>
-                <DialogFooter className="sm:justify-start">
+                <DialogFooter className="sm:justify-center">
                     <Button variant="outline" onClick={handleCopyAddress}>
                         <Copy className="mr-2 h-4 w-4" /> Copy Address
                     </Button>
-                    <Button variant="outline" onClick={handleViewTransactions}>
-                        <List className="mr-2 h-4 w-4" /> View Transactions
-                    </Button>
+
                 </DialogFooter>
             </DialogContent>
         </Dialog>

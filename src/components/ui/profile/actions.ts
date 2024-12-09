@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache'
 
 export async function updateProfile(data: {
+  principalId: string
+  accountId: string
   name: string
   logo?: string
   description: string

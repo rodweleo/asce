@@ -8,6 +8,7 @@ export function AdminInventoryProductListItem({ productItem }: {
 }) {
 
     const {
+        id,
         name,
         description,
         price,
@@ -20,7 +21,7 @@ export function AdminInventoryProductListItem({ productItem }: {
 
     return (
         <>
-            <TableCell>{name}</TableCell>
+            <TableCell>{id}</TableCell>
             <TableCell>
                 <Image src={image} alt={`${name}'s image`} width={50} height={50} className="rounded-md" />
             </TableCell>

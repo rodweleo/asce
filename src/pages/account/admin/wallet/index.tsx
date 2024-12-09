@@ -17,6 +17,7 @@ export default function AdminWalletPage() {
         setActivePageName("Wallet")
     }, [])
 
+    console.log("Hello")
     return (
         <div className="min-h-screen w-full space-y-5">
             <AdminWalletDashboard />

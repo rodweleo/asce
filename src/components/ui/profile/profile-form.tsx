@@ -8,12 +8,16 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useToast } from '@/components/ui/use-toast'
 import { ImageUpload } from './image-upload'
-import { updateProfile } from './actions'
+import toast from "react-hot-toast"
+import { useAuth } from '../use-auth-client'
+
 
 const profileFormSchema = z.object({
+  principalId: z.string().optional(),
+  accountId: z.string().min(2, {
+    message: 'Business name must be at least 2 characters.',
+  }),
   name: z.string().min(2, {
     message: 'Business name must be at least 2 characters.',
   }),
@@ -50,31 +54,37 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 // You would typically fetch this data from your backend
-const defaultValues: ProfileFormValues = {
-  name: 'Asceflow Technologies',
-  logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-  description: 'Leading business automation solutions provider',
-  industry: 'Technology',
-  website: 'https://asceflow.com',
-  email: 'contact@asceflow.com',
-  phone: '+1 (555) 123-4567',
-  address: {
-    street: '123 Business Ave',
-    city: 'Tech City',
-    state: 'Innovation State',
-    zipCode: '12345',
-    country: 'United States'
-  },
-  socialMedia: {
-    linkedin: 'https://linkedin.com/company/asceflow',
-    twitter: 'https://twitter.com/asceflow',
-    facebook: 'https://facebook.com/asceflow'
-  }
-}
+
 
 export function ProfileForm() {
   const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
+
+  const { principal } = useAuth()
+
+  const defaultValues: ProfileFormValues = {
+    principalId: principal ? principal.toText() : "",
+    accountId: "",
+    name: 'Asceflow Technologies',
+    logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
+    description: 'Leading business automation solutions provider',
+    industry: 'Technology',
+    website: 'https://asceflow.com',
+    email: 'contact@asceflow.com',
+    phone: '+254795565344',
+    address: {
+      street: '123 Business Ave',
+      city: 'Tech City',
+      state: 'Innovation State',
+      zipCode: '12345',
+      country: 'Kenya'
+    },
+    socialMedia: {
+      linkedin: 'https://linkedin.com/company/asceflow',
+      twitter: 'https://twitter.com/asceflow',
+      facebook: 'https://facebook.com/asceflow'
+    }
+  }
+
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -84,17 +94,14 @@ export function ProfileForm() {
   async function onSubmit(data: ProfileFormValues) {
     setIsLoading(true)
     try {
-      await updateProfile(data)
-      toast({
-        title: 'Profile updated',
-        description: 'Your business profile has been successfully updated.',
-      })
+      // await updateProfile(data)
+
+      toast.success("Your business profile has been successfully updated.")
+
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'An error occurred while updating your profile. Please try again.',
-        variant: 'destructive',
-      })
+
+      toast.error("An error occurred while updating your profile. Please try again.")
+
     } finally {
       setIsLoading(false)
     }
@@ -104,6 +111,40 @@ export function ProfileForm() {
     <div className="flex flex-col items-center justify-start min-h-screen w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white shadow-md rounded-lg p-8 w-full ">
+          <FormField
+            control={form.control}
+            name="principalId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-black">Business Principal ID</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your business principal ID" {...field} defaultValue={principal ? principal.toText() : ""} />
+                </FormControl>
+                <FormDescription>
+                  This is the principal ID that will be displayed on your profile.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="accountId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-black">Business Account ID</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your business account ID" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is the account ID that will be displayed on your profile.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="name"

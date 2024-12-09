@@ -7,12 +7,15 @@ import Link from "next/link"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./collapsible"
 import { useAuth } from "./use-auth-client"
 import { IconDeviceDesktopDollar, IconLayoutCollage, IconBuildingWarehouse } from "@tabler/icons-react"
+import Image from "next/image"
+import { Separator } from "./separator"
+import { formatAddress } from "@/utils/format-address"
 
 export default function AdminSidebar() {
 
     const [activeTab, setActiveTab] = useState("overview")
 
-    const { whoAmI } = useAuth()
+    const { principal } = useAuth()
 
     const sidebarItems = [
         { icon: IconLayoutCollage, label: "Dashboard", value: "/account/admin" },
@@ -39,9 +42,18 @@ export default function AdminSidebar() {
     return (
         <Sidebar className="bg-white">
             <SidebarHeader>
-                <h1 className="text-xl font-bold text-blue-500">{whoAmI}</h1>
+                <div className="px-5">
+                    <div className="flex gap-2.5">
+                        <Image src="/logos/Asceflow Logo.png" width={40} height={30} alt="Business Name" className="rounded-full object-cover" />
+                        <div>
+                            <h1 className="text-xl font-bold">{principal ? formatAddress(principal.toText()) : ""}</h1>
+                            <p className="text-neutral-500 text-sm">Administrator</p>
+                        </div>
+                    </div>
+                </div>
             </SidebarHeader>
-            <SidebarContent>
+            <Separator />
+            <SidebarContent className="mt-2.5">
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu className="space-y-2.5">

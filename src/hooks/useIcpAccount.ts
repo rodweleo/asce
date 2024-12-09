@@ -39,7 +39,6 @@ export const useIcpAccount = (accountId?: string) => {
     }, [transactions])
 
 
-    console.log(transactions)
     return {
         balance, transactions, latestTransaction
     }
