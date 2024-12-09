@@ -47,7 +47,7 @@ export default function AdminSidebar() {
                         <Image src="/logos/Asceflow Logo.png" width={40} height={30} alt="Business Name" className="rounded-full object-cover" />
                         <div>
                             <h1 className="text-xl font-bold">{principal ? formatAddress(principal.toText()) : ""}</h1>
-                            <p className="text-neutral-500 text-sm">Administrator</p>
+                            <p className="text-neutral-500 text-sm">Admin</p>
                         </div>
                     </div>
                 </div>
