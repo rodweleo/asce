@@ -2,9 +2,8 @@ import { AuthClient } from "@dfinity/auth-client";
 import { Account, AccountIdentifier, Icrc1TransferRequest, LedgerCanister } from "@dfinity/ledger-icp";
 import { IcrcLedgerCanister } from "@dfinity/ledger-icrc";
 import { Principal } from "@dfinity/principal";
-import { createAgent } from "@dfinity/utils";
 import toast from "react-hot-toast";
-
+import { HttpAgent } from '@dfinity/agent';
 
 export const initAuthClient = async () => {
     const authClient = await AuthClient.create();
@@ -24,11 +23,16 @@ export const initIcpLedger = async (ledgerCanisterId?: string) => {
         if (await authClient.isAuthenticated()) {
             const identity = authClient.getIdentity()
 
-            const agent = await createAgent({
+            const isLocalDevelopment = process.env.DFX_NETWORK !== 'ic';
+
+            const agent = await HttpAgent.create({
                 identity,
-                // host: process.env.DFX_NETWORK === 'ic' ? 'https://icp-api.io' : 'http://localhost:4943',
-                host: 'https://icp-api.io'
-            })
+                host: isLocalDevelopment ? 'http://localhost:4943' : 'https://ic0.app'
+            });
+
+            if (isLocalDevelopment) {
+                await agent.fetchRootKey();
+            }
 
             const ledger = LedgerCanister.create({
                 agent,
@@ -36,10 +40,15 @@ export const initIcpLedger = async (ledgerCanisterId?: string) => {
             });
 
             return ledger
+        } else {
+
+            //trigger a fresh authenticaion using internet identity
+
+            throw new Error("User not authenticated.")
         }
 
     } catch (e) {
-
+        console.error("Error initializing ICP ledger:", e);
         return null;
     }
 }
@@ -90,6 +99,8 @@ export const transferIcpToken = async (toPrincipal: string, amount: number) => {
         const blockHeight = await ledgerCanister.icrc1Transfer(request);
         return blockHeight;
     } catch (error) {
+
+        console.log(error)
         toast.error(`Transfer failed: ${error.message}`);
 
         return null;
@@ -110,11 +121,18 @@ export const initAscecoinLedger = async (ledgerCanisterId?: string) => {
         if (await authClient.isAuthenticated()) {
             const identity = authClient.getIdentity()
 
-            const agent = await createAgent({
+
+            const isLocalDevelopment = process.env.DFX_NETWORK !== 'ic';
+
+            const agent = await HttpAgent.create({
                 identity,
-                // host: process.env.DFX_NETWORK === 'ic' ? 'https://icp-api.io' : 'http://localhost:4943',
-                host: 'https://icp-api.io'
-            })
+                host: isLocalDevelopment ? 'http://localhost:4943' : 'https://ic0.app'
+            });
+
+            if (isLocalDevelopment) {
+                await agent.fetchRootKey();
+            }
+
 
             const ascecoinLedger = IcrcLedgerCanister.create({
                 agent,

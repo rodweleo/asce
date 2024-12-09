@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import AdminProfileBtn from './admin-profile-btn';
 import useActivePageName from '@/hooks/use-active-page-name';
+import { AuthProvider } from './use-auth-client';
 
 interface AdminLayoutProps {
     children: ReactNode;
@@ -18,33 +19,35 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     const { activePageName } = useActivePageName()
 
     return (
-        <SidebarProvider>
-            <div className="flex w-full h-screen">
-                <AdminSidebar />
-                <main className='w-full'>
-                    <header className="sticky top-0 z-10 bg-white border-b">
-                        <div className="flex items-center justify-between px-4 py-2">
-                            <SidebarTrigger />
-                            <h1 className="font-bold text-xl">{activePageName}</h1>
-                            <AdminProfileBtn />
-                        </div>
-                    </header>
-                    <section className="container mx-auto py-5 bg-gray-50">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={router.pathname}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 10 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {children}
-                            </motion.div>
-                        </AnimatePresence>
-                    </section>
-                </main>
-            </div>
-        </SidebarProvider>
+        <AuthProvider>
+            <SidebarProvider>
+                <div className="flex w-full h-screen">
+                    <AdminSidebar />
+                    <main className='w-full'>
+                        <header className="sticky top-0 z-10 bg-white border-b py-1">
+                            <div className="flex items-center justify-between px-4 py-2">
+                                <SidebarTrigger />
+                                <h1 className="font-bold text-xl">{activePageName}</h1>
+                                <AdminProfileBtn />
+                            </div>
+                        </header>
+                        <section className="p-5 bg-gray-50">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={router.pathname}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    {children}
+                                </motion.div>
+                            </AnimatePresence>
+                        </section>
+                    </main>
+                </div>
+            </SidebarProvider>
+        </AuthProvider>
     );
 };
 

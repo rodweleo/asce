@@ -5,8 +5,6 @@ import { canisterId, createActor } from "../../declarations/bizpro-backend";
 import { HttpAgent, Identity } from "@dfinity/agent";
 import type { Principal } from "@dfinity/principal";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { login } from "@/redux/slices/authSlice";
 import { useRouter } from "next/router";
 import { createAgent } from "@dfinity/utils";
 import AsceflowBackendActor from "@/utils/AsceflowBackendActor";
@@ -23,10 +21,12 @@ export const getIdentityProvider = () => {
     if (typeof window !== "undefined") {
         const isLocal = process.env.DFX_NETWORK !== "ic";
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if (isLocal && isSafari) {
-            idpProvider = `http://localhost:4943?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY}`;
-        } else if (isLocal) {
-            idpProvider = `https://identity.ic0.app`;
+        if (isLocal) {
+            if (isSafari) {
+                idpProvider = `http://localhost:4943?canisterId=${process.env.CANISTER_ID_INTERNET_IDENTITY! || "be2us-64aaa-aaaaa-qaabq-cai"}`;
+            } else {
+                idpProvider = `http://${process.env.CANISTER_ID_INTERNET_IDENTITY! || "be2us-64aaa-aaaaa-qaabq-cai"}.localhost:4943`;
+            }
         } else {
             idpProvider = `https://identity.ic0.app`;
         }
@@ -75,15 +75,21 @@ export const useAuthClient = (options = defaultOptions) => {
     const [agent, setAgent] = useState<HttpAgent | undefined>(undefined);
     const [accountId, setAccountId] = useState(undefined)
     const [whoAmI, setWhoAmI] = useState<string>("")
-    const dispatch = useDispatch();
+
+    const [signInMethod, setSignInMethod] = useState("");
+
     const router = useRouter()
+
 
     useEffect(() => {
         // Initialize AuthClient
         AuthClient.create(options.createOptions).then(async (client) => {
             updateClient(client);
         });
+
     }, []);
+
+
 
     const signInWithIcpAuthenticator = () => {
         if (authClient) {
@@ -107,12 +113,12 @@ export const useAuthClient = (options = defaultOptions) => {
                     updateClient(authClient);
                     toast.success(`Welcome back ${authClient.getIdentity().getPrincipal()}`)
 
+                    setSignInMethod("Internet Identity")
                     const loggedInUser = {
                         principal: principal,
                         role: "admin"
                     }
 
-                    dispatch(login(loggedInUser))
 
                     router.push("/account/admin")
 
@@ -145,7 +151,8 @@ export const useAuthClient = (options = defaultOptions) => {
 
                 const agent: HttpAgent = await window.ic.plug.agent;
                 // const isWalletLocked: boolean = await window.ic.plug.isWalletLocked;
-                const principalId: Principal = await window.ic.plug.principalId;
+                const principalId = await window.ic.plug.principalId;
+
                 const accountId = await window.ic.plug.accountId;
 
                 toast.success(`Welcome back ${principalId.toText()}`)
@@ -154,7 +161,11 @@ export const useAuthClient = (options = defaultOptions) => {
                 setPrincipal(principalId)
                 setAccountId(accountId)
 
+                setSignInMethod("Plug Wallet")
+
                 router.push("/account/admin")
+
+
 
 
             } catch (e) {
@@ -183,6 +194,7 @@ export const useAuthClient = (options = defaultOptions) => {
                     toast.success(`Welcome back ${authClient.getIdentity().getPrincipal().toText()}`)
                     updateClient(authClient);
 
+                    setSignInMethod("NFID")
 
                     router.push("/account/admin")
 
@@ -244,6 +256,9 @@ export const useAuthClient = (options = defaultOptions) => {
         setIdentity(undefined);
         setIsAuthenticated(false);
         await updateClient(authClient!);
+
+        router.replace("/");
+        
     }
 
 
